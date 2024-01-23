@@ -1,7 +1,6 @@
-// components/QuestionPage.js
+// src/components/QuestionPage.js
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import './styles.css';
 
 const questions = [
     'What is your skin type?',
@@ -17,7 +16,7 @@ const options = [
     // Add more options as needed
 ];
 
-const QuestionPage = () => {
+const QuestionPage = ({ totalQuestions }) => {
     const { questionNumber } = useParams();
     const navigate = useNavigate();
     const questionIndex = parseInt(questionNumber, 10) - 1;
@@ -42,23 +41,39 @@ const QuestionPage = () => {
         }
     };
 
+    const progress = (questionNumber / totalQuestions) * 100;
+
     return (
-        <div>
-            <h2>{questions[questionIndex]}</h2>
-            <form>
-                {options[questionIndex].map((option) => (
-                    <label key={option}>
-                        <input
-                            type="radio"
-                            value={option}
-                            checked={selectedOption === option}
-                            onChange={() => handleOptionChange(option)}
-                        />
-                        {option}
-                    </label>
-                ))}
-            </form>
-            <button onClick={handleNext}>Next</button>
+        <div className="container">
+            <div className="card bg-white p-4 rounded-lg shadow-md">
+                <div className="w-full bg-gray-200 rounded-full h-1.5 mb-4 dark:bg-gray-700">
+                    <div
+                        className="bg-blue-600 h-1.5 rounded-full dark:bg-blue-500"
+                        style={{ width: `${progress}%` }}
+                    ></div>
+                </div>
+                <h2 className="text-3xl font-bold mb-4">{questions[questionIndex]}</h2>
+                <form>
+                    {options[questionIndex].map((option) => (
+                        <label key={option} className="block mb-2">
+                            <input
+                                type="radio"
+                                value={option}
+                                checked={selectedOption === option}
+                                onChange={() => handleOptionChange(option)}
+                                className="mr-2"
+                            />
+                            {option}
+                        </label>
+                    ))}
+                </form>
+                <button
+                    onClick={handleNext}
+                    className="bg-blue-600 text-white px-4 py-2 rounded-full mt-4 hover:bg-blue-500"
+                >
+                    Next
+                </button>
+            </div>
         </div>
     );
 };
