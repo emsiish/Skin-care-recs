@@ -7,6 +7,5 @@ public class DoctorRatingResource {
     private Long id;
     private String comment;
     private int rating;
-    private String doctor_email;
     private String username;
 }
