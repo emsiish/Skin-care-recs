@@ -7,6 +7,7 @@ import java.util.List;
 @Data
 public class UserResource {
     private Long id;
+    private String name;
     private String username;
     private String password;
 

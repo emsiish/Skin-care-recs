@@ -38,6 +38,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<UserResource> getAllUsers() {
+        return USER_MAPPER.mapToUserResourceList(userRepository.findAll());
+    }
+    @Override
     public UserResource getUserById(Long id) {
         return USER_MAPPER.mapToUserResource(userRepository.findById(id).orElseThrow());
     }

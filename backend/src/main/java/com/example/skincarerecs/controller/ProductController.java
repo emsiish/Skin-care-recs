@@ -5,6 +5,8 @@ import com.example.skincarerecs.service.ProductService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @AllArgsConstructor
 @RequestMapping(path = "/api/v1/products")
@@ -15,6 +17,11 @@ public class ProductController {
     @PostMapping
     public ProductResource addProduct(@RequestBody ProductResource product) {
         return productService.addProduct(product);
+    }
+
+    @GetMapping
+    public List<ProductResource> getAllProducts() {
+        return productService.getAllProducts();
     }
 
     @GetMapping(path = "/{id}")

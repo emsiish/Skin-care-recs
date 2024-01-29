@@ -7,6 +7,8 @@ import com.example.skincarerecs.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 import static com.example.skincarerecs.mapper.ProductMapper.PRODUCT_MAPPER;
 
 @Service
@@ -42,5 +44,10 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void deleteProduct(Long id) {
         productRepository.deleteById(id);
+    }
+
+    @Override
+    public List<ProductResource> getAllProducts() {
+        return PRODUCT_MAPPER.mapToProductResourceList(productRepository.findAll());
     }
 }

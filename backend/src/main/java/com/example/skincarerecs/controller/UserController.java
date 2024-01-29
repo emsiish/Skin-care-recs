@@ -5,6 +5,8 @@ import com.example.skincarerecs.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @AllArgsConstructor
 @RequestMapping(path = "/api/v1/users")
@@ -15,6 +17,11 @@ public class UserController {
     @PostMapping
     public UserResource addUser(@RequestBody UserResource user) {
         return userService.addUser(user);
+    }
+
+    @GetMapping
+    public List<UserResource> getAllUsers() {
+        return userService.getAllUsers();
     }
 
     @GetMapping(path = "/{id}")
