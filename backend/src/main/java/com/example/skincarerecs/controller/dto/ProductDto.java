@@ -1,12 +1,11 @@
-package com.example.skincarerecs.controller.resources;
+package com.example.skincarerecs.controller.dto;
 
-import com.example.skincarerecs.entity.Tag;
 import lombok.Data;
 
 import java.util.List;
 
 @Data
-public class ProductResource {
+public class ProductDto {
     private Long id;
     private String name;
     private String brand;
@@ -14,6 +13,6 @@ public class ProductResource {
     private String image;
     private String price;
 
-    private List<String> tags_names;
+    private List<TagDto> tags_names;
 
 }

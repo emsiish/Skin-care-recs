@@ -1,4 +1,4 @@
-package com.example.skincarerecs.controller;
+package com.example.skincarerecs.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;

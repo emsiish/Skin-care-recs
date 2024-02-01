@@ -1,6 +1,6 @@
 package com.example.skincarerecs.controller;
 
-import com.example.skincarerecs.controller.resources.TagResource;
+import com.example.skincarerecs.controller.dto.TagDto;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import com.example.skincarerecs.service.TagService;
@@ -12,12 +12,12 @@ public class TagController {
     private final TagService tagService;
 
     @PostMapping
-    public TagResource addTag(@RequestBody TagResource tag) {
+    public TagDto addTag(@RequestBody TagDto tag) {
         return tagService.addTag(tag);
     }
 
     @GetMapping(path = "/{id}")
-    public TagResource getTagById(@PathVariable Long id) {
+    public TagDto getTagById(@PathVariable Long id) {
         return tagService.getTagById(id);
     }
 

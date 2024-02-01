@@ -1,9 +1,9 @@
-package com.example.skincarerecs.controller.resources;
+package com.example.skincarerecs.controller.dto;
 
 import lombok.Data;
 
 @Data
-public class DoctorResource {
+public class DoctorDto {
     private Long id;
     private String name;
     private String telephone;

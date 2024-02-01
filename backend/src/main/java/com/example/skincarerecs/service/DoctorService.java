@@ -1,17 +1,17 @@
 package com.example.skincarerecs.service;
 
-import com.example.skincarerecs.controller.resources.DoctorResource;
+import com.example.skincarerecs.controller.dto.DoctorDto;
 
 import java.util.List;
 
 public interface DoctorService {
-    DoctorResource addDoctor(DoctorResource doctor);
+    DoctorDto addDoctor(DoctorDto doctor);
 
-    List<DoctorResource> getAllDoctors();
+    List<DoctorDto> getAllDoctors();
 
-    DoctorResource getDoctorById(Long id);
+    DoctorDto getDoctorById(Long id);
 
-    DoctorResource updateDoctor(Long id, DoctorResource doctor);
+    DoctorDto updateDoctor(Long id, DoctorDto doctor);
 
     void deleteDoctor(Long id);
 }

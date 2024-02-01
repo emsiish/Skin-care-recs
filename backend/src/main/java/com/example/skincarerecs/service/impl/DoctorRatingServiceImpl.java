@@ -1,9 +1,7 @@
 package com.example.skincarerecs.service.impl;
 
-import com.example.skincarerecs.controller.resources.DoctorRatingResource;
-import com.example.skincarerecs.entity.Doctor;
+import com.example.skincarerecs.controller.dto.DoctorRatingDto;
 import com.example.skincarerecs.entity.DoctorRating;
-import com.example.skincarerecs.entity.User;
 import com.example.skincarerecs.repository.DoctorRatingRepository;
 import com.example.skincarerecs.repository.DoctorRepository;
 import com.example.skincarerecs.repository.UserRepository;
@@ -24,15 +22,15 @@ public class DoctorRatingServiceImpl implements DoctorRatingService {
     private final DoctorRepository doctorRepository;
 
     @Override
-    public DoctorRatingResource addDoctorRating(Long doctorId, DoctorRatingResource doctorRating) {
+    public DoctorRatingDto addDoctorRating(Long doctorId, DoctorRatingDto doctorRating) {
         DoctorRating doctorRatingEntity = DOCTOR_RATING_MAPPER.mapToDoctorRating(doctorRating);
 
         //TODO: all relationships should be set that way (resource -> string; entity -> object)
-        User userEntity = userRepository.findByUsername(doctorRating.getUsername()).orElseThrow();
-        Doctor doctorEntity = doctorRepository.findById(doctorId).orElseThrow();
+        //User userEntity = userRepository.findByUsername(doctorRating.getUsername()).orElseThrow();
+        //Doctor doctorEntity = doctorRepository.findById(doctorId).orElseThrow();
 
-        doctorRatingEntity.setUser(userEntity);
-        doctorRatingEntity.setDoctor(doctorEntity);
+        //doctorRatingEntity.setUser(userEntity);
+        //doctorRatingEntity.setDoctor(doctorEntity);
 
         doctorRatingRepository.save(doctorRatingEntity);
 
@@ -40,17 +38,17 @@ public class DoctorRatingServiceImpl implements DoctorRatingService {
     }
 
     @Override
-    public List<DoctorRatingResource> getAllDoctorRatings(Long doctorId) {
+    public List<DoctorRatingDto> getAllDoctorRatings(Long doctorId) {
         return DOCTOR_RATING_MAPPER.mapToDoctorRatingResourceList(doctorRatingRepository.findAll());
     }
 
     @Override
-    public DoctorRatingResource getDoctorRatingById(Long doctorId, Long id) {
+    public DoctorRatingDto getDoctorRatingById(Long doctorId, Long id) {
         return DOCTOR_RATING_MAPPER.mapToDoctorRatingResource(doctorRatingRepository.findById(id).orElseThrow());
     }
 
     @Override
-    public DoctorRatingResource updateDoctorRating(Long doctorId, Long id, DoctorRatingResource doctorRating) {
+    public DoctorRatingDto updateDoctorRating(Long doctorId, Long id, DoctorRatingDto doctorRating) {
         return null;
     }
 

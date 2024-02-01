@@ -1,12 +1,12 @@
-package com.example.skincarerecs.controller.resources;
+package com.example.skincarerecs.controller.dto;
 
 import lombok.Data;
 
 @Data
-public class ProductRatingResource {
+public class ProductRatingDto {
     private Long id;
     private String comment;
     private int rating;
     private String product_name;
-    private String username;
+    private UserDto username;
 }

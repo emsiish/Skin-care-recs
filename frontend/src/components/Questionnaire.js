@@ -1,6 +1,6 @@
-// src/components/QuestionPage.js
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import axios from 'axios';
 
 const questions = [
     'What is your skin type?',
@@ -12,7 +12,7 @@ const questions = [
 const options = [
     ['Normal', 'Oily', 'Dry', 'Combination'],
     ['Acne', 'Dryness', 'Wrinkles', 'None'],
-    ['Morning routine', 'Evening routine', 'Both', 'None'],
+    ['Morning', 'Evening', 'Both', 'None'],
     // Add more options as needed
 ];
 
@@ -21,36 +21,32 @@ const QuestionPage = ({ totalQuestions }) => {
     const navigate = useNavigate();
     const questionIndex = parseInt(questionNumber, 10) - 1;
 
-    const [selectedOption, setSelectedOption] = useState('');
-
+    const [selectedOptions, setSelectedOptions] = useState(Array(questions.length).fill({name: ''}));
     const handleOptionChange = (option) => {
-        setSelectedOption(option);
+        const newSelectedOptions = [...selectedOptions];
+        newSelectedOptions[questionIndex] = {name: option};
+        setSelectedOptions(newSelectedOptions);
     };
 
     const handleNext = () => {
-        // Save the selected option or perform any necessary actions
-        // For now, let's just log the selected option
-        console.log(`Question ${questionIndex + 1}: ${selectedOption}`);
-
         // Navigate to the next question or the results page if it's the last question
         if (questionIndex < questions.length - 1) {
             navigate(`/question/${questionIndex + 2}`);
         } else {
-            // Navigate to the results page or any other page you want
+            // Navigate to the put request
+            axios.put('http://localhost:8080/api/v1/users/4/tags', selectedOptions).then((res) => {
+                console.log(res.data);
+            });
             navigate('/results');
         }
     };
-
     const progress = (questionNumber / totalQuestions) * 100;
 
     return (
         <div className="container max-w-md">
             <div className="card bg-white p-4 rounded-lg shadow-md w-full">
                 <div className="w-full bg-gray-200 rounded-full h-1.5 mb-4 dark:bg-gray-700" style={{ width: '100%' }}>
-                    <div
-                        className="bg-blue-600 h-1.5 rounded-full dark:bg-blue-500"
-                        style={{ width: `${progress}%` }}
-                    ></div>
+                    <div className="bg-blue-600 h-1.5 rounded-full dark:bg-blue-500" style={{ width: `${progress}%` }}></div>
                 </div>
                 <h2 className="text-3xl font-bold mb-4">{questions[questionIndex]}</h2>
                 <form>
@@ -59,7 +55,7 @@ const QuestionPage = ({ totalQuestions }) => {
                             <input
                                 type="radio"
                                 value={option}
-                                checked={selectedOption === option}
+                                checked={selectedOptions[questionIndex].name === option}
                                 onChange={() => handleOptionChange(option)}
                                 className="mr-2"
                             />

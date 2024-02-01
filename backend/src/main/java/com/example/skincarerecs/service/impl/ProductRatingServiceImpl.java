@@ -1,6 +1,6 @@
 package com.example.skincarerecs.service.impl;
 
-import com.example.skincarerecs.controller.resources.ProductRatingResource;
+import com.example.skincarerecs.controller.dto.ProductRatingDto;
 import com.example.skincarerecs.entity.ProductRating;
 import com.example.skincarerecs.repository.ProductRatingRepository;
 import com.example.skincarerecs.service.ProductRatingService;
@@ -18,7 +18,7 @@ public class ProductRatingServiceImpl implements ProductRatingService {
     private final ProductRatingRepository productRatingRepository;
 
     @Override
-    public ProductRatingResource addProductRating(Long productId, ProductRatingResource productRating) {
+    public ProductRatingDto addProductRating(Long productId, ProductRatingDto productRating) {
         ProductRating productRatingEntity = PRODUCT_RATING_MAPPER.mapToProductRating(productRating);
 
         productRatingRepository.save(productRatingEntity);
@@ -27,17 +27,17 @@ public class ProductRatingServiceImpl implements ProductRatingService {
     }
 
     @Override
-    public List<ProductRatingResource> getAllProductRatings(Long productId) {
+    public List<ProductRatingDto> getAllProductRatings(Long productId) {
         return PRODUCT_RATING_MAPPER.mapToProductRatingResourceList(productRatingRepository.findAll());
     }
 
     @Override
-    public ProductRatingResource getProductRatingById(Long productId, Long id) {
+    public ProductRatingDto getProductRatingById(Long productId, Long id) {
         return PRODUCT_RATING_MAPPER.mapToProductRatingResource(productRatingRepository.findById(id).orElseThrow());
     }
 
     @Override
-    public ProductRatingResource updateProductRating(Long productId, Long id, ProductRatingResource productRating) {
+    public ProductRatingDto updateProductRating(Long productId, Long id, ProductRatingDto productRating) {
         return null;
     }
 

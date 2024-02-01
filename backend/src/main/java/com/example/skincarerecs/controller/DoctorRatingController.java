@@ -1,6 +1,6 @@
 package com.example.skincarerecs.controller;
 
-import com.example.skincarerecs.controller.resources.DoctorRatingResource;
+import com.example.skincarerecs.controller.dto.DoctorRatingDto;
 import com.example.skincarerecs.service.DoctorRatingService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -15,17 +15,17 @@ public class DoctorRatingController {
     private final DoctorRatingService doctorRatingService;
 
     @PostMapping
-    public DoctorRatingResource addDoctorRating(@PathVariable Long doctorId, @RequestBody DoctorRatingResource doctorRating) {
+    public DoctorRatingDto addDoctorRating(@PathVariable Long doctorId, @RequestBody DoctorRatingDto doctorRating) {
         return doctorRatingService.addDoctorRating(doctorId, doctorRating);
     }
 
     @GetMapping
-    public List<DoctorRatingResource> getAllDoctorRatings(@PathVariable Long doctorId) {
+    public List<DoctorRatingDto> getAllDoctorRatings(@PathVariable Long doctorId) {
         return doctorRatingService.getAllDoctorRatings(doctorId);
     }
 
     @GetMapping(path = "/{id}")
-    public DoctorRatingResource getDoctorRatingById(@PathVariable Long doctorId, @PathVariable Long id) {
+    public DoctorRatingDto getDoctorRatingById(@PathVariable Long doctorId, @PathVariable Long id) {
         return doctorRatingService.getDoctorRatingById(doctorId, id);
     }
 

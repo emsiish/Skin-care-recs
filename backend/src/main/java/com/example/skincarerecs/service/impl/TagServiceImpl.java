@@ -1,6 +1,6 @@
 package com.example.skincarerecs.service.impl;
 
-import com.example.skincarerecs.controller.resources.TagResource;
+import com.example.skincarerecs.controller.dto.TagDto;
 import com.example.skincarerecs.entity.Tag;
 import com.example.skincarerecs.repository.TagRepository;
 import com.example.skincarerecs.service.TagService;
@@ -15,7 +15,7 @@ public class TagServiceImpl implements TagService {
 
     private final TagRepository tagRepository;
     @Override
-    public TagResource addTag(TagResource tag) {
+    public TagDto addTag(TagDto tag) {
         Tag tagEntity = TAG_MAPPER.mapToTag(tag);
 
         tagRepository.save(tagEntity);
@@ -24,12 +24,12 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public TagResource getTagById(Long id) {
+    public TagDto getTagById(Long id) {
         return TAG_MAPPER.mapToTagResource(tagRepository.findById(id).orElseThrow());
     }
 
     @Override
-    public TagResource updateTag(Long id, TagResource tag) {
+    public TagDto updateTag(Long id, TagDto tag) {
         return null;
     }
 

@@ -1,6 +1,6 @@
 package com.example.skincarerecs.service.impl;
 
-import com.example.skincarerecs.controller.resources.DoctorResource;
+import com.example.skincarerecs.controller.dto.DoctorDto;
 import com.example.skincarerecs.entity.Doctor;
 import com.example.skincarerecs.repository.DoctorRepository;
 import com.example.skincarerecs.service.DoctorService;
@@ -16,7 +16,7 @@ public class DoctorServiceImpl implements DoctorService {
 
     private final DoctorRepository doctorRepository;
     @Override
-    public DoctorResource addDoctor(DoctorResource doctor) {
+    public DoctorDto addDoctor(DoctorDto doctor) {
         Doctor doctorEntity = DOCTOR_MAPPER.mapToDoctor(doctor);
 
         doctorRepository.save(doctorEntity);
@@ -25,17 +25,17 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
-    public List<DoctorResource> getAllDoctors() {
+    public List<DoctorDto> getAllDoctors() {
         return DOCTOR_MAPPER.mapToDoctorResourceList(doctorRepository.findAll());
     }
 
     @Override
-    public DoctorResource getDoctorById(Long id) {
+    public DoctorDto getDoctorById(Long id) {
         return DOCTOR_MAPPER.mapToDoctorResource(doctorRepository.findById(id).orElseThrow());
     }
 
     @Override
-    public DoctorResource updateDoctor(Long id, DoctorResource doctor) {
+    public DoctorDto updateDoctor(Long id, DoctorDto doctor) {
         Doctor doctorEntity = doctorRepository.findById(id).orElseThrow();
         doctorEntity.setName(doctor.getName());
         doctorEntity.setTelephone(doctor.getTelephone());

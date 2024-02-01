@@ -1,12 +1,12 @@
 package com.example.skincarerecs.service;
 
-import com.example.skincarerecs.controller.resources.TagResource;
+import com.example.skincarerecs.controller.dto.TagDto;
 
 public interface TagService {
-    TagResource addTag(TagResource tag);
-    TagResource getTagById(Long id);
+    TagDto addTag(TagDto tag);
+    TagDto getTagById(Long id);
 
     //do i need it??
-    TagResource updateTag(Long id, TagResource tag);
+    TagDto updateTag(Long id, TagDto tag);
     void deleteTag(Long id);
 }

@@ -1,6 +1,6 @@
 package com.example.skincarerecs.service.impl;
 
-import com.example.skincarerecs.controller.resources.ProductResource;
+import com.example.skincarerecs.controller.dto.ProductDto;
 import com.example.skincarerecs.entity.Product;
 import com.example.skincarerecs.repository.ProductRepository;
 import com.example.skincarerecs.service.ProductService;
@@ -16,19 +16,19 @@ import static com.example.skincarerecs.mapper.ProductMapper.PRODUCT_MAPPER;
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     @Override
-    public ProductResource addProduct(ProductResource product) {
+    public ProductDto addProduct(ProductDto product) {
         Product productEntity = PRODUCT_MAPPER.mapToProduct(product);
         productRepository.save(productEntity);
         return PRODUCT_MAPPER.mapToProductResource(productEntity);
     }
 
     @Override
-    public ProductResource getProductById(Long id) {
+    public ProductDto getProductById(Long id) {
         return PRODUCT_MAPPER.mapToProductResource(productRepository.findById(id).orElseThrow());
     }
 
     @Override
-    public ProductResource updateProduct(Long id, ProductResource product) {
+    public ProductDto updateProduct(Long id, ProductDto product) {
         Product productEntity = productRepository.findById(id).orElseThrow();
         productEntity.setName(product.getName());
         productEntity.setBrand(product.getBrand());
@@ -47,7 +47,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductResource> getAllProducts() {
+    public List<ProductDto> getAllProducts() {
         return PRODUCT_MAPPER.mapToProductResourceList(productRepository.findAll());
     }
 }

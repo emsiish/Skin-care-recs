@@ -18,9 +18,9 @@ public class Tag {
 
     private String name;
 
-    @ManyToMany(mappedBy = "tags")
+    @ManyToMany(mappedBy = "tags", cascade = CascadeType.MERGE)
     List<User> users;
 
-    @ManyToMany(mappedBy = "tags")
+    @ManyToMany(mappedBy = "tags", cascade = CascadeType.MERGE)
     List<Product> products;
 }
