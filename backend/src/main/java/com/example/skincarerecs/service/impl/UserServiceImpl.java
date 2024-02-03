@@ -1,66 +1,72 @@
 package com.example.skincarerecs.service.impl;
 
-import com.example.skincarerecs.controller.dto.TagDto;
-import com.example.skincarerecs.controller.dto.UserDto;
-import com.example.skincarerecs.entity.Tag;
-import com.example.skincarerecs.entity.User;
-import com.example.skincarerecs.repository.UserRepository;
-import com.example.skincarerecs.repository.TagRepository;
-import com.example.skincarerecs.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.example.skincarerecs.mapper.UserMapper.USER_MAPPER;
+import com.example.skincarerecs.controller.dto.TagDto;
+import com.example.skincarerecs.controller.dto.UserDto;
+import com.example.skincarerecs.entity.Tag;
+import com.example.skincarerecs.entity.User;
+import com.example.skincarerecs.mapper.UserMapper;
+import com.example.skincarerecs.repository.UserRepository;
+import com.example.skincarerecs.repository.TagRepository;
+import com.example.skincarerecs.service.UserService;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
-
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final TagRepository tagRepository;
+    private final UserMapper userMapper;
 
     @Override
     public UserDto addUser(UserDto user) {
-        User userEntity = USER_MAPPER.mapToUser(user);
+        log.info("Adding a new user: {}", user);
+        User userEntity = userMapper.mapToUser(user);
         userRepository.save(userEntity);
+        log.info("User added successfully: {}", user);
 
-        //TODO: setting tags manually. won't be used by frontend. mapper doesn't know how to tag -> string
-        //UserResource userResource = USER_MAPPER.mapToUserResource(userEntity);
-        //userResource.setTags_names(user.getTags_names());
-
-        return USER_MAPPER.mapToUserResource(userEntity);
+        return userMapper.mapToUserResource(userEntity);
     }
 
     @Override
     public List<UserDto> getAllUsers() {
-        return USER_MAPPER.mapToUserResourceList(userRepository.findAll());
+        log.info("Fetching all users.");
+        return userMapper.mapToUserResourceList(userRepository.findAll());
     }
+
     @Override
     public UserDto getUserById(Long id) {
-        return USER_MAPPER.mapToUserResource(userRepository.findById(id).orElseThrow());
+        log.info("Fetching user by ID: {}", id);
+        return userMapper.mapToUserResource(userRepository.findById(id).orElseThrow());
     }
 
     @Override
     public UserDto updateUser(Long id, UserDto user) {
+        log.info("Updating user with ID {}: {}", id, user);
         User userEntity = userRepository.findById(id).orElseThrow();
 
-        userEntity.setName(userEntity.getName());
-        userEntity.setUsername(userEntity.getUsername());
-        userEntity.setPassword(userEntity.getPassword());
+        userEntity.setName(user.getName());
+        userEntity.setEmail(user.getEmail());
+        userEntity.setPassword(user.getPassword());
 
         userRepository.save(userEntity);
 
-        return USER_MAPPER.mapToUserResource(userEntity);
+        log.info("User updated successfully: {}", userEntity);
+
+        return userMapper.mapToUserResource(userEntity);
     }
 
     @Override
     public UserDto updateUserTags(Long id, List<TagDto> tags) {
-        System.out.println("tags: " + tags);
+        log.info("Updating tags for user with ID {}: {}", id, tags);
         User userEntity = userRepository.findById(id).orElseThrow();
         List<Tag> tagsEntity = tags.stream()
                 .map(tag -> tagRepository.findByName(tag.getName()).orElseThrow())
@@ -69,11 +75,15 @@ public class UserServiceImpl implements UserService {
         userEntity.setTags(tagsEntity);
         userRepository.save(userEntity);
 
-        return USER_MAPPER.mapToUserResource(userEntity);
+        log.info("User's tags updated successfully: {}", userEntity);
+
+        return userMapper.mapToUserResource(userEntity);
     }
 
     @Override
     public void deleteUser(Long id) {
+        log.info("Deleting user with ID: {}", id);
         userRepository.deleteById(id);
+        log.info("User deleted successfully with ID: {}", id);
     }
 }

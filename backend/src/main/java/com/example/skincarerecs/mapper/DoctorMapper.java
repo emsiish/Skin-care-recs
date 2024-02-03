@@ -5,12 +5,14 @@ import org.mapstruct.Mapper;
 import com.example.skincarerecs.controller.dto.DoctorDto;
 import com.example.skincarerecs.entity.Doctor;
 import org.mapstruct.factory.Mappers;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Mapper
+@Mapper(componentModel = "spring")
+@Component
 public interface DoctorMapper {
-    DoctorMapper DOCTOR_MAPPER = Mappers.getMapper(DoctorMapper.class);
+    //DoctorMapper DOCTOR_MAPPER = Mappers.getMapper(DoctorMapper.class);
     Doctor mapToDoctor(DoctorDto doctorDto);
     DoctorDto mapToDoctorResource(Doctor doctor);
 

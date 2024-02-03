@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+import jakarta.validation.constraints.*;
+
 @Entity
 @Data
 @AllArgsConstructor
@@ -16,8 +18,14 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Name cannot be blank")
     private String name;
-    private String username;
+
+    @Email(message = "Email should be valid")
+    @NotBlank(message = "Email cannot be blank")
+    private String email;
+
+    @NotBlank(message = "Password cannot be blank")
     private String password;
 
     @ManyToMany

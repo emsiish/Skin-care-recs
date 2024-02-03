@@ -8,8 +8,5 @@ public interface DoctorRatingService {
     DoctorRatingDto addDoctorRating(Long doctorId, DoctorRatingDto doctorRating);
     List<DoctorRatingDto> getAllDoctorRatings(Long doctorId);
     DoctorRatingDto getDoctorRatingById(Long doctorId, Long id);
-
-    //?? do i need it?
-    DoctorRatingDto updateDoctorRating(Long doctorId, Long id, DoctorRatingDto doctorRating);
     void deleteDoctorRating(Long doctorId, Long id);
 }
