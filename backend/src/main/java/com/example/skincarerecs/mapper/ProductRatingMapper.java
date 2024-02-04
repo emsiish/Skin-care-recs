@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(uses = UserMapper.class, componentModel = "spring")
 @Component
 public interface ProductRatingMapper {
     //ProductRatingMapper PRODUCT_RATING_MAPPER = Mappers.getMapper(ProductRatingMapper.class);

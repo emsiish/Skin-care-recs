@@ -1,6 +1,8 @@
 package com.example.skincarerecs.controller;
 
 import com.example.skincarerecs.controller.dto.ProductDto;
+import com.example.skincarerecs.controller.dto.ProductRatingHelperDto;
+import com.example.skincarerecs.controller.dto.TagDto;
 import com.example.skincarerecs.service.ProductService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +19,11 @@ public class ProductController {
     @PostMapping
     public ProductDto addProduct(@RequestBody ProductDto product) {
         return productService.addProduct(product);
+    }
+
+    @PostMapping(path = "/getByTags")
+    public List<ProductRatingHelperDto> getProductsByTags(@RequestBody List<TagDto> tags) {
+        return productService.getProductsByTags(tags);
     }
 
     @GetMapping

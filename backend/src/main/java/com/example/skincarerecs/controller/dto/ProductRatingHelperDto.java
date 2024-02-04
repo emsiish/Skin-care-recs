@@ -1,13 +1,14 @@
 package com.example.skincarerecs.controller.dto;
 
+import jakarta.validation.constraints.Digits;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 import java.util.List;
 
-import jakarta.validation.constraints.*;
-
 @Data
-public class ProductDto {
+public class ProductRatingHelperDto{
     private Long id;
 
     @NotBlank(message = "Name cannot be blank")
@@ -27,5 +28,6 @@ public class ProductDto {
     private Double price;
 
     private List<TagDto> tags;
-
+    private Double averageRating;
+    private int count;
 }

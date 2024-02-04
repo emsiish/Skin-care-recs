@@ -36,3 +36,5 @@ mvnw
 mvnw.cmd
 
 env.properties
+
+.mvn/wrapper/maven-wrapper.properties

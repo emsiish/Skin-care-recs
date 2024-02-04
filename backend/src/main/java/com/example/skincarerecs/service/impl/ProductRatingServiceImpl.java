@@ -1,9 +1,13 @@
 package com.example.skincarerecs.service.impl;
 
 import com.example.skincarerecs.controller.dto.ProductRatingDto;
+import com.example.skincarerecs.entity.Product;
 import com.example.skincarerecs.entity.ProductRating;
+import com.example.skincarerecs.entity.User;
 import com.example.skincarerecs.mapper.ProductRatingMapper;
 import com.example.skincarerecs.repository.ProductRatingRepository;
+import com.example.skincarerecs.repository.ProductRepository;
+import com.example.skincarerecs.repository.UserRepository;
 import com.example.skincarerecs.service.ProductRatingService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,20 +22,31 @@ public class ProductRatingServiceImpl implements ProductRatingService {
 
     private final ProductRatingRepository productRatingRepository;
     private final ProductRatingMapper productRatingMapper;
+    private final ProductRepository productRepository;
+    private final UserRepository userRepository;
 
     @Override
     public ProductRatingDto addProductRating(Long productId, ProductRatingDto productRating) {
         log.info("Adding a new product rating for product ID {}: {}", productId, productRating);
+
+        Product productEntity = productRepository.findById(productId).orElseThrow();
+        User userEntity = userRepository.findByEmail(productRating.getUser().getEmail()).orElseThrow();
         ProductRating productRatingEntity = productRatingMapper.mapToProductRating(productRating);
+
+        productRatingEntity.setProduct(productEntity);
+        productRatingEntity.setUser(userEntity);
+
         productRatingRepository.save(productRatingEntity);
+
         log.info("Product rating added successfully for product ID {}: {}", productId, productRating);
+
         return productRatingMapper.mapToProductRatingResource(productRatingEntity);
     }
 
     @Override
     public List<ProductRatingDto> getAllProductRatings(Long productId) {
         log.info("Fetching all product ratings for product ID: {}", productId);
-        return productRatingMapper.mapToProductRatingResourceList(productRatingRepository.findAll());
+        return productRatingMapper.mapToProductRatingResourceList(productRatingRepository.findAllByProductId(productId));
     }
 
     @Override

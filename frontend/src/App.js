@@ -7,6 +7,7 @@ import ResultsPage from './components/Results';
 import Products from './components/Products';
 import Navbar from './components/Navbar';
 import './components/styles.css';
+import Doctors from "./components/Doctors";
 
 const App = () => (
     <Router>
@@ -16,6 +17,7 @@ const App = () => (
             <Route path="/question/:questionNumber" element={<QuestionPage totalQuestions={3}/>} />
             <Route path="/results" element={<ResultsPage />} />
             <Route path="/products" element={<Products />} />
+            <Route path="/doctors" element={<Doctors />} />
         </Routes>
     </Router>
 );

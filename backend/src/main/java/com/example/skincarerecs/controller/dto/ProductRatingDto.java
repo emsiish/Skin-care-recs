@@ -14,6 +14,5 @@ public class ProductRatingDto {
     @Digits(integer = 1, fraction = 1, message = "Invalid rating format")
     private Double rating;
 
-    private ProductDto productName;
-    private UserDto email;
+    private UserDto user;
 }

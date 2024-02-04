@@ -30,6 +30,11 @@ public class UserServiceImpl implements UserService {
     public UserDto addUser(UserDto user) {
         log.info("Adding a new user: {}", user);
         User userEntity = userMapper.mapToUser(user);
+        List<Tag> tagsEntity = user.getTags().stream()
+                .map(tag -> tagRepository.findByName(tag.getName()).orElseThrow())
+                .collect(Collectors.toCollection(ArrayList::new));
+
+        userEntity.setTags(tagsEntity);
         userRepository.save(userEntity);
         log.info("User added successfully: {}", user);
 

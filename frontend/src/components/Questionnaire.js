@@ -34,10 +34,10 @@ const QuestionPage = ({ totalQuestions }) => {
             navigate(`/question/${questionIndex + 2}`);
         } else {
             // Navigate to the put request
-            axios.put('http://localhost:8080/api/v1/users/4/tags', selectedOptions).then((res) => {
+            axios.put('http://localhost:8080/api/v1/users/1/tags', selectedOptions).then((res) => {
                 console.log(res.data);
             });
-            navigate('/results');
+            navigate('/products', { state: { selectedOptions } });
         }
     };
     const progress = (questionNumber / totalQuestions) * 100;
