@@ -11,11 +11,11 @@ body {
     font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
+    background-color: #78BEE3;
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100vh; /* Make sure the body takes the full height of the viewport */
+    /*height: 100vh; /* Make sure the body takes the full height of the viewport */
 }
 
 .container {

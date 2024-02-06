@@ -34,7 +34,7 @@ const Products = () => {
     const handleAddRating = async (productId) => {
         try {
             console.log('Adding rating for product ID:', productId);
-            const response = await axios.post(`http://localhost:8080/api/v1/products/${productId}/ratings`, {
+            await axios.post(`http://localhost:8080/api/v1/products/${productId}/ratings`, {
                 rating: document.getElementById("rating").value,
                 comment: document.getElementById("comment").value,
                 user: {
@@ -48,17 +48,17 @@ const Products = () => {
     }
 
     return (
-        <div className="flex flex-col items-center justify-center h-full">
+        <div className="min-h-screen">
             <div className="product-page text-center">
                 <h2 className="text-3xl font-bold mb-4">Products</h2>
-                <div className="flex flex-wrap justify-center">
+                <div className="flex flex-wrap justify-start">
                     {products.map((product) => (
                         <div key={product.id} className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 p-2">
                             <div className="h-full bg-white p-4 rounded-lg shadow-md flex flex-col justify-between">
                                 <img
                                     src={product.image}
                                     alt={`Product ${product.id}`}
-                                    className="mb-2 w-full h-auto" // Adjust max height as needed
+                                    className="mb-2 w-full h-auto"
                                 />
                                 <div>
                                     <h3 className="text-xl font-bold">{product.name}</h3>
@@ -69,8 +69,8 @@ const Products = () => {
                                         <strong>Tags: </strong>
                                         {product.tags.map((tag) => (
                                             <span key={tag.id} className="mr-2">
-                                                {tag.name}
-                                            </span>
+                      {tag.name}
+                    </span>
                                         ))}
                                     </div>
                                     <div className="mt-2">
@@ -126,6 +126,6 @@ const Products = () => {
             )}
         </div>
     );
-};
 
+}
 export default Products;

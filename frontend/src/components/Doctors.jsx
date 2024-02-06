@@ -23,7 +23,7 @@ const Doctors = () => {
                 <h2 className="text-3xl font-bold mb-4">Doctors</h2>
                 <div className="flex flex-wrap justify-center">
                     {doctors.map((doctor) => (
-                        <div key={doctor.id} className="max-w-sm rounded overflow-hidden shadow-lg m-4">
+                        <div key={doctor.id} className="card max-w-sm rounded overflow-hidden shadow-lg m-4">
                             <div className="px-6 py-4">
                                 <h3 className="font-bold text-xl mb-2">{doctor.name}</h3>
                                 <p className="text-gray-700 text-base">{doctor.hospital}</p>
