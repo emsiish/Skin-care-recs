@@ -1,7 +1,9 @@
 package com.example.skincarerecs.service.impl;
 
 import com.example.skincarerecs.controller.dto.DoctorRatingDto;
+import com.example.skincarerecs.entity.Doctor;
 import com.example.skincarerecs.entity.DoctorRating;
+import com.example.skincarerecs.entity.User;
 import com.example.skincarerecs.mapper.DoctorRatingMapper;
 import com.example.skincarerecs.repository.DoctorRatingRepository;
 import com.example.skincarerecs.repository.DoctorRepository;
@@ -29,10 +31,10 @@ public class DoctorRatingServiceImpl implements DoctorRatingService {
         DoctorRating doctorRatingEntity = doctorRatingMapper.mapToDoctorRating(doctorRating);
 
         //TODO: Set relationships here if needed
-        //User userEntity = userRepository.findByUsername(doctorRating.getUsername()).orElseThrow();
-        //Doctor doctorEntity = doctorRepository.findById(doctorId).orElseThrow();
-        //doctorRatingEntity.setUser(userEntity);
-        //doctorRatingEntity.setDoctor(doctorEntity);
+        User userEntity = userRepository.findByEmail(doctorRating.getUser().getEmail()).orElseThrow();
+        Doctor doctorEntity = doctorRepository.findById(doctorId).orElseThrow();
+        doctorRatingEntity.setUser(userEntity);
+        doctorRatingEntity.setDoctor(doctorEntity);
 
         doctorRatingRepository.save(doctorRatingEntity);
 
@@ -44,7 +46,7 @@ public class DoctorRatingServiceImpl implements DoctorRatingService {
     @Override
     public List<DoctorRatingDto> getAllDoctorRatings(Long doctorId) {
         log.info("Fetching all doctor ratings for doctor ID: {}", doctorId);
-        return doctorRatingMapper.mapToDoctorRatingResourceList(doctorRatingRepository.findAll());
+        return doctorRatingMapper.mapToDoctorRatingResourceList(doctorRatingRepository.findAllByDoctorId(doctorId));
     }
 
     @Override

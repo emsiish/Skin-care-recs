@@ -14,5 +14,5 @@ public class DoctorRatingDto {
     @Digits(integer = 1, fraction = 1, message = "Invalid rating format")
     private Double rating;
 
-    private UserDto username;
+    private UserDto user;
 }

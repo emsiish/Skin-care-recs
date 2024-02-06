@@ -78,7 +78,6 @@ public class ProductServiceImpl implements ProductService {
         return productMapper.mapToProductResourceList(productRepository.findAll());
     }
 
-    //one product should include at least one tag
     @Override
     public List<ProductRatingHelperDto> getProductsByTags(List<TagDto> tags) {
         log.info("Fetching products by tags: {}", tags);

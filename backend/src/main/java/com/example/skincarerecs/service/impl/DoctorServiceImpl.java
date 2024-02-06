@@ -1,8 +1,10 @@
 package com.example.skincarerecs.service.impl;
 
 import com.example.skincarerecs.controller.dto.DoctorDto;
+import com.example.skincarerecs.controller.dto.DoctorRatingHelperDto;
 import com.example.skincarerecs.entity.Doctor;
 import com.example.skincarerecs.mapper.DoctorMapper;
+import com.example.skincarerecs.repository.DoctorRatingRepository;
 import com.example.skincarerecs.repository.DoctorRepository;
 import com.example.skincarerecs.service.DoctorService;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +20,7 @@ public class DoctorServiceImpl implements DoctorService {
 
     private final DoctorRepository doctorRepository;
     private final DoctorMapper doctorMapper;
+    private final DoctorRatingRepository doctorRatingRepository;
 
     @Override
     public DoctorDto addDoctor(DoctorDto doctor) {
@@ -29,10 +32,21 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
-    public List<DoctorDto> getAllDoctors() {
-        log.info("Fetching all doctors.");
-        return doctorMapper.mapToDoctorResourceList(doctorRepository.findAll());
+    public List<DoctorRatingHelperDto> getAllDoctorsWithRatings() {
+        log.info("Fetching all doctors with ratings.");
+
+        List<Doctor> doctors = doctorRepository.findAll();
+
+        List<DoctorRatingHelperDto> doctorRatingsHelper = doctorMapper.mapToDoctorRatingHelperResourceList(doctors);
+
+        doctorRatingsHelper.forEach(doctorRatingHelper -> {
+            doctorRatingHelper.setAverageRating(doctorRatingRepository.getAverageRatingByDoctorId(doctorRatingHelper.getId()));
+            doctorRatingHelper.setCount(doctorRatingRepository.countByDoctorId(doctorRatingHelper.getId()));
+        });
+
+        return doctorRatingsHelper;
     }
+
 
     @Override
     public DoctorDto getDoctorById(Long id) {

@@ -1,6 +1,7 @@
 package com.example.skincarerecs.controller;
 
 import com.example.skincarerecs.controller.dto.DoctorDto;
+import com.example.skincarerecs.controller.dto.DoctorRatingHelperDto;
 import com.example.skincarerecs.service.DoctorService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -19,8 +20,8 @@ public class DoctorController {
     }
 
     @GetMapping
-    public List<DoctorDto> getAllDoctors() {
-        return doctorService.getAllDoctors();
+    public List<DoctorRatingHelperDto> getAllDoctors() {
+        return doctorService.getAllDoctorsWithRatings();
     }
 
     @GetMapping(path = "/{id}")

@@ -1,5 +1,6 @@
 package com.example.skincarerecs.mapper;
 
+import com.example.skincarerecs.controller.dto.DoctorRatingHelperDto;
 import org.mapstruct.Mapper;
 
 import com.example.skincarerecs.controller.dto.DoctorDto;
@@ -18,4 +19,5 @@ public interface DoctorMapper {
 
     List<DoctorDto> mapToDoctorResourceList(List<Doctor> doctorList);
 
+    List<DoctorRatingHelperDto> mapToDoctorRatingHelperResourceList(List<Doctor> doctors);
 }

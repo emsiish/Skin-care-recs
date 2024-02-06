@@ -20,12 +20,12 @@ const Products = () => {
             });
     }, [selectedOptions]);
 
-    const handleFetchRatings = async (productId) => {
+    const handleFetchRatings = async (productId, productName) => {
         try {
             console.log('Fetching ratings for product ID:', productId);
             const response = await axios.get(`http://localhost:8080/api/v1/products/${productId}/ratings`);
             const ratings = response.data;
-            setSelectedProduct({ ...selectedProduct, ratings });
+            setSelectedProduct({ ...selectedProduct, ratings, name: productName });
         } catch (error) {
             console.error(`Error fetching ratings for product ID ${productId}:`, error);
         }
@@ -69,8 +69,8 @@ const Products = () => {
                                         <strong>Tags: </strong>
                                         {product.tags.map((tag) => (
                                             <span key={tag.id} className="mr-2">
-                      {tag.name}
-                    </span>
+                                                {tag.name}
+                                            </span>
                                         ))}
                                     </div>
                                     <div className="mt-2">
@@ -79,7 +79,7 @@ const Products = () => {
                                     <div className="mt-2">
                                         <strong>Average Rating: </strong>{product.averageRating ?? 0}
                                     </div>
-                                    <button onClick={() => handleFetchRatings(product.id)} className="mt-2 bg-blue-500 text-white p-2 rounded">
+                                    <button onClick={() => handleFetchRatings(product.id, product.name)} className="mt-2 bg-blue-500 text-white p-2 rounded">
                                         Show Ratings
                                     </button>
                                     <button onClick={() => setAddRating(product.id)} className="mt-2 bg-blue-500 text-white p-2 rounded">
