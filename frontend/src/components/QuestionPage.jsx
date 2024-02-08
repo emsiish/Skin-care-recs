@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { API_BASE_URL, USERS_ENDPOINT, USER_TAGS_ENDPOINT } from '../api';
+import {useAuth} from "./Auth";
 
 
 const questions = [
@@ -20,6 +21,7 @@ const QuestionPage = ({ totalQuestions }) => {
     const { questionNumber } = useParams();
     const navigate = useNavigate();
     const questionIndex = parseInt(questionNumber, 10) - 1;
+    const { token } = useAuth();
 
     const [selectedOptions, setSelectedOptions] = useState(Array(questions.length).fill({ name: '' }));
     const handleOptionChange = (option) => {
@@ -32,8 +34,9 @@ const QuestionPage = ({ totalQuestions }) => {
         if (questionIndex < questions.length - 1) {
             navigate(`/question/${questionIndex + 2}`);
         } else {
+            const headers = { Authorization: `Bearer ${token}` };
             // Navigate to the put request
-            axios.put(`${API_BASE_URL}${USERS_ENDPOINT}/1${USER_TAGS_ENDPOINT}`, selectedOptions)
+            axios.put(`${API_BASE_URL}${USERS_ENDPOINT}/1${USER_TAGS_ENDPOINT}`, selectedOptions, {headers})
                 .then((res) => {
                 console.log(res.data);
             });

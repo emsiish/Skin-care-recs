@@ -2,16 +2,20 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
 import { API_BASE_URL, PRODUCTS_ENDPOINT, PRODUCT_RATINGS_ENDPOINT } from '../api';
+import {useAuth} from "./Auth";
 
 const ProductsPage = () => {
     const [products, setProducts] = useState([]);
     const [selectedProduct, setSelectedProduct] = useState(null);
     const location = useLocation();
-    const selectedOptions = location.state ? location.state.selectedOptions : [];
+    const selectedOptions = location.state ? location.state.selectedOptions : [{name: 'Normal'}, {name: 'Acne'}, {name: 'Morning'}];
     const [addRating, setAddRating] = useState(null);
+    const { token } = useAuth();
 
+    //TODO: Fetch products by user and not questionnaire
     useEffect(() => {
-        axios.post(`${API_BASE_URL}${PRODUCTS_ENDPOINT}/getByTags`, selectedOptions)
+        const headers = { Authorization: `Bearer ${token}` };
+        axios.post(`${API_BASE_URL}${PRODUCTS_ENDPOINT}/getByTags`, selectedOptions, { headers })
             .then((res) => {
                 const productData = res.data;
                 setProducts(productData);
@@ -19,12 +23,13 @@ const ProductsPage = () => {
             .catch((err) => {
                 console.error('Error fetching products:', err);
             });
-    }, [selectedOptions]);
+    }, [selectedOptions, token]);
 
     const handleFetchRatings = async (productId, productName) => {
         try {
             console.log('Fetching ratings for product ID:', productId);
-            const response = await axios.get(`http://localhost:8080/api/v1/products/${productId}/ratings`);
+            const headers = { Authorization: `Bearer ${token}` };
+            const response = await axios.get(`http://localhost:8080/api/v1/products/${productId}/ratings`, { headers });
             const ratings = response.data;
             setSelectedProduct({ ...selectedProduct, ratings, name: productName });
         } catch (error) {
@@ -35,13 +40,14 @@ const ProductsPage = () => {
     const handleAddRating = async (productId) => {
         try {
             console.log('Adding rating for product ID:', productId);
+            const headers = { Authorization: `Bearer ${token}` };
             await axios.post(`http://localhost:8080/api/v1/products/${productId}/ratings`, {
                 rating: document.getElementById("rating").value,
                 comment: document.getElementById("comment").value,
                 user: {
                     "email": "emiliyausheva730@gmail.com"
                 }
-            });
+            }, { headers });
         } catch (error) {
             console.error(`Error adding rating for product ID ${productId}:`, error);
         }

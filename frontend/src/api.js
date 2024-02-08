@@ -8,3 +8,5 @@ export const PRODUCT_RATINGS_ENDPOINT = '/ratings';
 
 export const USERS_ENDPOINT = '/users';
 export const USER_TAGS_ENDPOINT = '/tags';
+
+export const LOGIN_ENDPOINT = '/auth/login';

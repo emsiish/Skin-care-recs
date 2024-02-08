@@ -9,17 +9,22 @@ import Navbar from './components/Navbar';
 import './components/styles.css';
 import DoctorsPage from "./components/DoctorsPage";
 import './App.css';
+import Login from "./components/Login";
+import {AuthProvider} from "./components/Auth";
 
 const App = () => (
     <Router>
-        <Navbar />
-        <Routes>
-            <Route path="/" element={<StartPage />} />
-            <Route path="/question/:questionNumber" element={<QuestionPage totalQuestions={3}/>} />
-            <Route path="/results" element={<ResultsPage />} />
-            <Route path="/products" element={<ProductsPage />} />
-            <Route path="/doctors" element={<DoctorsPage />} />
-        </Routes>
+        <AuthProvider>
+            <Navbar />
+            <Routes>
+                <Route path="/" element={<StartPage />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/question/:questionNumber" element={<QuestionPage totalQuestions={3}/>} />
+                <Route path="/results" element={<ResultsPage />} />
+                <Route path="/products" element={<ProductsPage />} />
+                <Route path="/doctors" element={<DoctorsPage />} />
+            </Routes>
+        </AuthProvider>
     </Router>
 );
 

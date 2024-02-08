@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { API_BASE_URL, DOCTORS_ENDPOINT, DOCTOR_RATINGS_ENDPOINT } from '../api';
+import {useAuth} from "./Auth";
 
 const DoctorsPage = () => {
     const [doctors, setDoctors] = useState([]);
     const [selectedDoctor, setSelectedDoctor] = useState(null);
+    const { token } = useAuth();
 
     useEffect(() => {
-        axios.get(`${API_BASE_URL}${DOCTORS_ENDPOINT}`)
+        const headers = { Authorization: `Bearer ${token}` };
+        axios.get(`${API_BASE_URL}${DOCTORS_ENDPOINT}`, { headers })
             .then(response => {
                 setDoctors(response.data);
             })
@@ -19,7 +22,8 @@ const DoctorsPage = () => {
     const handleFetchRatings = async (doctorId, doctorName) => {
         try {
             console.log('Fetching ratings for doctor ID:', doctorId);
-            const response = await axios.get(`${API_BASE_URL}${DOCTORS_ENDPOINT}/${doctorId}${DOCTOR_RATINGS_ENDPOINT}`);
+            const headers = { Authorization: `Bearer ${token}` };
+            const response = await axios.get(`${API_BASE_URL}${DOCTORS_ENDPOINT}/${doctorId}${DOCTOR_RATINGS_ENDPOINT}`, {headers});
             const ratings = response.data;
             setSelectedDoctor({ ...selectedDoctor, ratings, name: doctorName });
         } catch (error) {
