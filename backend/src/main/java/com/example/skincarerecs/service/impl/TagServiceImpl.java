@@ -33,11 +33,6 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public TagDto updateTag(Long id, TagDto tag) {
-        return null;
-    }
-
-    @Override
     public void deleteTag(Long id) {
         log.info("Deleting tag with ID: {}", id);
         tagRepository.deleteById(id);

@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
+import { API_BASE_URL, USERS_ENDPOINT, USER_TAGS_ENDPOINT } from '../api';
+
 
 const questions = [
     'What is your skin type?',
     'Which skincare concerns do you have?',
     'What is your preferred skincare routine?',
-    // Add more questions as needed
 ];
 
 const options = [
     ['Normal', 'Oily', 'Dry', 'Combination'],
     ['Acne', 'Dryness', 'Wrinkles', 'None'],
     ['Morning', 'Evening', 'Both', 'None'],
-    // Add more options as needed
 ];
 
 const QuestionPage = ({ totalQuestions }) => {
@@ -29,12 +29,12 @@ const QuestionPage = ({ totalQuestions }) => {
     };
 
     const handleNext = () => {
-        // Navigate to the next question or the results page if it's the last question
         if (questionIndex < questions.length - 1) {
             navigate(`/question/${questionIndex + 2}`);
         } else {
             // Navigate to the put request
-            axios.put('http://localhost:8080/api/v1/users/1/tags', selectedOptions).then((res) => {
+            axios.put(`${API_BASE_URL}${USERS_ENDPOINT}/1${USER_TAGS_ENDPOINT}`, selectedOptions)
+                .then((res) => {
                 console.log(res.data);
             });
             navigate('/products', { state: { selectedOptions } });

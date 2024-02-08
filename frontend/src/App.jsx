@@ -1,23 +1,24 @@
 // src/App.jsx
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import WelcomePage from './components/Welcome';
-import QuestionPage from './components/Questionnaire';
+import StartPage from './components/StartPage';
+import QuestionPage from './components/QuestionPage';
 import ResultsPage from './components/Results';
-import Products from './components/Products';
+import ProductsPage from './components/ProductsPage';
 import Navbar from './components/Navbar';
 import './components/styles.css';
-import Doctors from "./components/Doctors";
+import DoctorsPage from "./components/DoctorsPage";
+import './App.css';
 
 const App = () => (
     <Router>
         <Navbar />
         <Routes>
-            <Route path="/" element={<WelcomePage />} />
+            <Route path="/" element={<StartPage />} />
             <Route path="/question/:questionNumber" element={<QuestionPage totalQuestions={3}/>} />
             <Route path="/results" element={<ResultsPage />} />
-            <Route path="/products" element={<Products />} />
-            <Route path="/doctors" element={<Doctors />} />
+            <Route path="/products" element={<ProductsPage />} />
+            <Route path="/doctors" element={<DoctorsPage />} />
         </Routes>
     </Router>
 );

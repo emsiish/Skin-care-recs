@@ -59,7 +59,7 @@ public class DoctorServiceImpl implements DoctorService {
         log.info("Updating doctor with ID {}: {}", id, doctor);
         Doctor doctorEntity = doctorRepository.findById(id).orElseThrow();
         doctorEntity.setName(doctor.getName());
-        doctorEntity.setTelephone(doctor.getTelephone());
+        doctorEntity.setPhoneNumber(doctor.getPhoneNumber());
         doctorEntity.setEmail(doctor.getEmail());
         doctorEntity.setHospital(doctor.getHospital());
 

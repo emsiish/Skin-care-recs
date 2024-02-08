@@ -4,6 +4,7 @@ import com.example.skincarerecs.controller.dto.ProductDto;
 import com.example.skincarerecs.controller.dto.ProductRatingHelperDto;
 import com.example.skincarerecs.controller.dto.TagDto;
 import com.example.skincarerecs.service.ProductService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,12 +18,12 @@ public class ProductController {
     private final ProductService productService;
 
     @PostMapping
-    public ProductDto addProduct(@RequestBody ProductDto product) {
+    public ProductDto addProduct(@Valid @RequestBody ProductDto product) {
         return productService.addProduct(product);
     }
 
     @PostMapping(path = "/getByTags")
-    public List<ProductRatingHelperDto> getProductsByTags(@RequestBody List<TagDto> tags) {
+    public List<ProductRatingHelperDto> getProductsByTags(@Valid @RequestBody List<TagDto> tags) {
         return productService.getProductsByTags(tags);
     }
 
@@ -37,7 +38,7 @@ public class ProductController {
     }
 
     @PutMapping(path = "/{id}")
-    public ProductDto updateProduct(@PathVariable Long id, @RequestBody ProductDto product) {
+    public ProductDto updateProduct(@PathVariable Long id, @Valid @RequestBody ProductDto product) {
         return productService.updateProduct(id, product);
     }
 

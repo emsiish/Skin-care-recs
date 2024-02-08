@@ -3,6 +3,7 @@ package com.example.skincarerecs.controller;
 import com.example.skincarerecs.controller.dto.DoctorDto;
 import com.example.skincarerecs.controller.dto.DoctorRatingHelperDto;
 import com.example.skincarerecs.service.DoctorService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +16,7 @@ public class DoctorController {
     private final DoctorService doctorService;
 
     @PostMapping
-    public DoctorDto addDoctor(@RequestBody DoctorDto doctor) {
+    public DoctorDto addDoctor(@Valid @RequestBody DoctorDto doctor) {
         return doctorService.addDoctor(doctor);
     }
 
@@ -30,7 +31,7 @@ public class DoctorController {
     }
 
     @PutMapping(path = "/{id}")
-    public DoctorDto updateDoctor(@PathVariable Long id, @RequestBody DoctorDto doctor) {
+    public DoctorDto updateDoctor(@PathVariable Long id, @Valid @RequestBody DoctorDto doctor) {
         return doctorService.updateDoctor(id, doctor);
     }
 

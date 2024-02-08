@@ -11,7 +11,7 @@ public class DoctorDto {
     private String name;
 
     @NotBlank(message = "Phone cannot be blank")
-    private String telephone;
+    private String phoneNumber;
 
     @Email(message = "Email should be valid")
     @NotBlank(message = "Email cannot be blank")

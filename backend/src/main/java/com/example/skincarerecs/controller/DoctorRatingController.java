@@ -2,6 +2,7 @@ package com.example.skincarerecs.controller;
 
 import com.example.skincarerecs.controller.dto.DoctorRatingDto;
 import com.example.skincarerecs.service.DoctorRatingService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +16,7 @@ public class DoctorRatingController {
     private final DoctorRatingService doctorRatingService;
 
     @PostMapping
-    public DoctorRatingDto addDoctorRating(@PathVariable Long doctorId, @RequestBody DoctorRatingDto doctorRating) {
+    public DoctorRatingDto addDoctorRating(@PathVariable Long doctorId, @Valid @RequestBody DoctorRatingDto doctorRating) {
         return doctorRatingService.addDoctorRating(doctorId, doctorRating);
     }
 

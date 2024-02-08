@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { API_BASE_URL, DOCTORS_ENDPOINT, DOCTOR_RATINGS_ENDPOINT } from '../api';
 
-const Doctors = () => {
+const DoctorsPage = () => {
     const [doctors, setDoctors] = useState([]);
     const [selectedDoctor, setSelectedDoctor] = useState(null);
 
     useEffect(() => {
-        // Fetch the list of doctors when the component mounts
-        axios.get('http://localhost:8080/api/v1/doctors') // Adjust the endpoint based on your backend
+        axios.get(`${API_BASE_URL}${DOCTORS_ENDPOINT}`)
             .then(response => {
                 setDoctors(response.data);
             })
@@ -19,7 +19,7 @@ const Doctors = () => {
     const handleFetchRatings = async (doctorId, doctorName) => {
         try {
             console.log('Fetching ratings for doctor ID:', doctorId);
-            const response = await axios.get(`http://localhost:8080/api/v1/doctors/${doctorId}/ratings`); // Adjust the endpoint
+            const response = await axios.get(`${API_BASE_URL}${DOCTORS_ENDPOINT}/${doctorId}${DOCTOR_RATINGS_ENDPOINT}`);
             const ratings = response.data;
             setSelectedDoctor({ ...selectedDoctor, ratings, name: doctorName });
         } catch (error) {
@@ -28,9 +28,8 @@ const Doctors = () => {
     };
 
     useEffect(() => {
-        // Log selectedDoctor after it has been updated
         console.log('Selected Doctor:', selectedDoctor);
-    }, [selectedDoctor]); //
+    }, [selectedDoctor]);
 
     return (
         <div className="flex flex-col items-center justify-center h-screen">
@@ -42,7 +41,7 @@ const Doctors = () => {
                             <div className="px-6 py-4">
                                 <h3 className="font-bold text-xl mb-2">{doctor.name}</h3>
                                 <p className="text-gray-700 text-base">{doctor.hospital}</p>
-                                <p className="text-gray-700 text-base">{doctor.telephone}</p>
+                                <p className="text-gray-700 text-base">{doctor.phoneNumber}</p>
                                 <p className="text-gray-700 text-base">{doctor.email}</p>
                                 <div className="mt-2">
                                     <strong>Rating Count: </strong>{doctor.count}
@@ -81,4 +80,4 @@ const Doctors = () => {
     );
 };
 
-export default Doctors;
+export default DoctorsPage;

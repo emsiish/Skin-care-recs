@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
+import { API_BASE_URL, PRODUCTS_ENDPOINT, PRODUCT_RATINGS_ENDPOINT } from '../api';
 
-const Products = () => {
+const ProductsPage = () => {
     const [products, setProducts] = useState([]);
     const [selectedProduct, setSelectedProduct] = useState(null);
     const location = useLocation();
@@ -10,7 +11,7 @@ const Products = () => {
     const [addRating, setAddRating] = useState(null);
 
     useEffect(() => {
-        axios.post('http://localhost:8080/api/v1/products/getByTags', selectedOptions)
+        axios.post(`${API_BASE_URL}${PRODUCTS_ENDPOINT}/getByTags`, selectedOptions)
             .then((res) => {
                 const productData = res.data;
                 setProducts(productData);
@@ -128,4 +129,4 @@ const Products = () => {
     );
 
 }
-export default Products;
+export default ProductsPage;
