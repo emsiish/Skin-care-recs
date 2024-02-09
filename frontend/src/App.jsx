@@ -11,6 +11,7 @@ import DoctorsPage from "./components/DoctorsPage";
 import './App.css';
 import Login from "./components/Login";
 import {AuthProvider} from "./components/Auth";
+import Register from "./components/Register";
 
 const App = () => (
     <Router>
@@ -19,6 +20,7 @@ const App = () => (
             <Routes>
                 <Route path="/" element={<StartPage />} />
                 <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
                 <Route path="/question/:questionNumber" element={<QuestionPage totalQuestions={3}/>} />
                 <Route path="/results" element={<ResultsPage />} />
                 <Route path="/products" element={<ProductsPage />} />

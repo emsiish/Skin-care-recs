@@ -5,13 +5,16 @@ import com.example.skincarerecs.controller.dto.ProductRatingHelperDto;
 import com.example.skincarerecs.controller.dto.TagDto;
 import com.example.skincarerecs.entity.Product;
 import com.example.skincarerecs.entity.Tag;
+import com.example.skincarerecs.entity.User;
 import com.example.skincarerecs.mapper.ProductMapper;
 import com.example.skincarerecs.repository.ProductRatingRepository;
 import com.example.skincarerecs.repository.ProductRepository;
 import com.example.skincarerecs.repository.TagRepository;
+import com.example.skincarerecs.repository.UserRepository;
 import com.example.skincarerecs.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -27,6 +30,7 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRatingRepository productRatingRepository;
     private final ProductMapper productMapper;
     private final TagRepository tagRepository;
+    private final UserRepository userRepository;
 
     @Override
     public ProductDto addProduct(ProductDto product) {
@@ -79,10 +83,13 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductRatingHelperDto> getProductsByTags(List<TagDto> tags) {
-        log.info("Fetching products by tags: {}", tags);
+    public List<ProductRatingHelperDto> getProductsByTags() {
+        String currentUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
 
-        List<String> tagNames = tags.stream().map(TagDto::getName).collect(Collectors.toList());
+        User user = userRepository.findByEmail(currentUserEmail).orElseThrow();
+        log.info("Fetching products for user: {}", user.getEmail());
+
+        List<String> tagNames = user.getTags().stream().map(Tag::getName).collect(Collectors.toList());
 
         List<Product> products = productRepository.findByTags(tagNames);
 

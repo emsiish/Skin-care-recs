@@ -1,11 +1,12 @@
 package com.example.skincarerecs.controller.dto;
 
+import jakarta.validation.constraints.Digits;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import lombok.Data;
 
-import jakarta.validation.constraints.*;
-
 @Data
-public class ProductRatingDto {
+public class AddDoctorRatingDto {
     private Long id;
     private String comment;
 
@@ -13,5 +14,4 @@ public class ProductRatingDto {
     @Max(value = 5, message = "Rating must be less than or equal to 5")
     @Digits(integer = 1, fraction = 1, message = "Invalid rating format")
     private Double rating;
-    private UserDto user;
 }

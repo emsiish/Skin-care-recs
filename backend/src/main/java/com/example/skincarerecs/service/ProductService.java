@@ -14,5 +14,5 @@ public interface ProductService {
 
     List<ProductDto> getAllProducts();
 
-    List<ProductRatingHelperDto> getProductsByTags(List<TagDto> tags);
+    List<ProductRatingHelperDto> getProductsByTags();
 }

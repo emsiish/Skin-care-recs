@@ -1,5 +1,6 @@
 package com.example.skincarerecs.service.impl;
 
+import com.example.skincarerecs.controller.dto.AddProductRatingDto;
 import com.example.skincarerecs.controller.dto.ProductRatingDto;
 import com.example.skincarerecs.entity.Product;
 import com.example.skincarerecs.entity.ProductRating;
@@ -11,6 +12,7 @@ import com.example.skincarerecs.repository.UserRepository;
 import com.example.skincarerecs.service.ProductRatingService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,11 +28,12 @@ public class ProductRatingServiceImpl implements ProductRatingService {
     private final UserRepository userRepository;
 
     @Override
-    public ProductRatingDto addProductRating(Long productId, ProductRatingDto productRating) {
+    public ProductRatingDto addProductRating(Long productId, AddProductRatingDto productRating) {
         log.info("Adding a new product rating for product ID {}: {}", productId, productRating);
 
         Product productEntity = productRepository.findById(productId).orElseThrow();
-        User userEntity = userRepository.findByEmail(productRating.getUser().getEmail()).orElseThrow();
+        String currentUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        User userEntity = userRepository.findByEmail(currentUserEmail).orElseThrow();
         ProductRating productRatingEntity = productRatingMapper.mapToProductRating(productRating);
 
         productRatingEntity.setProduct(productEntity);

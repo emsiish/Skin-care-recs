@@ -1,5 +1,6 @@
 package com.example.skincarerecs.controller;
 
+import com.example.skincarerecs.controller.dto.AddProductRatingDto;
 import com.example.skincarerecs.controller.dto.ProductRatingDto;
 import com.example.skincarerecs.service.ProductRatingService;
 import jakarta.validation.Valid;
@@ -16,7 +17,7 @@ public class ProductRatingController {
     private final ProductRatingService productRatingService;
 
     @PostMapping
-    public ProductRatingDto addProductRating(@PathVariable Long productId, @Valid @RequestBody ProductRatingDto productRating) {
+    public ProductRatingDto addProductRating(@PathVariable Long productId, @Valid @RequestBody AddProductRatingDto productRating) {
         return productRatingService.addProductRating(productId, productRating);
     }
 

@@ -6,6 +6,7 @@ import {useAuth} from "./Auth";
 const DoctorsPage = () => {
     const [doctors, setDoctors] = useState([]);
     const [selectedDoctor, setSelectedDoctor] = useState(null);
+    const [addRating, setAddRating] = useState(null);
     const { token } = useAuth();
 
     useEffect(() => {
@@ -30,10 +31,19 @@ const DoctorsPage = () => {
             console.error(`Error fetching ratings for doctor ID ${doctorId}:`, error);
         }
     };
-
-    useEffect(() => {
-        console.log('Selected Doctor:', selectedDoctor);
-    }, [selectedDoctor]);
+    const handleAddRating = async (doctorId) => {
+        try {
+            console.log('Adding rating for doctor ID:', doctorId);
+            const headers = { Authorization: `Bearer ${token}` };
+            await axios.post(`${API_BASE_URL}${DOCTORS_ENDPOINT}/${doctorId}${DOCTOR_RATINGS_ENDPOINT}`, {
+                rating: document.getElementById("rating").value,
+                comment: document.getElementById("comment").value,
+            }, { headers });
+        } catch (error) {
+            console.error(`Error adding rating for product ID ${doctorId}:`, error);
+        }
+        window.location.reload();
+    }
 
     return (
         <div className="flex flex-col items-center justify-center h-screen">
@@ -56,6 +66,9 @@ const DoctorsPage = () => {
                                 <button onClick={() => handleFetchRatings(doctor.id, doctor.name)} className="mt-2 bg-blue-500 text-white p-2 rounded">
                                     Show Ratings
                                 </button>
+                                <button onClick={() => setAddRating(doctor.id)} className="mt-2 bg-blue-500 text-white p-2 rounded">
+                                    Add Rating
+                                </button>
                             </div>
                         </div>
                     ))}
@@ -75,6 +88,20 @@ const DoctorsPage = () => {
                             </div>
                         ))}
                         <button onClick={() => setSelectedDoctor(null)} className="mt-4 bg-gray-500 text-white p-2 rounded">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            )}
+            {addRating && (
+                <div className="fixed inset-0 bg-gray-700 bg-opacity-50 flex items-center justify-center">
+                    <div className="bg-white p-4 rounded-md">
+                        <input type="number" id="rating" placeholder="Rating" />
+                        <input type="text" id="comment" placeholder="Comment" />
+                        <button onClick={() => handleAddRating(addRating)} className="mt-2 bg-blue-500 text-white p-2 rounded">
+                            Add Rating
+                        </button>
+                        <button onClick={() => setAddRating(null)} className="mt-2 bg-gray-500 text-white p-2 rounded">
                             Close
                         </button>
                     </div>

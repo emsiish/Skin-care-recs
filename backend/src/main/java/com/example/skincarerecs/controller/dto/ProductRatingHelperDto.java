@@ -28,6 +28,9 @@ public class ProductRatingHelperDto{
     private Double price;
 
     private List<TagDto> tags;
+
+    @Digits(integer = 1, fraction = 1, message = "Invalid rating format")
     private Double averageRating;
+
     private int count;
 }

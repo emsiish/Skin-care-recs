@@ -1,5 +1,6 @@
 package com.example.skincarerecs.controller;
 
+import com.example.skincarerecs.controller.dto.AddDoctorRatingDto;
 import com.example.skincarerecs.controller.dto.DoctorRatingDto;
 import com.example.skincarerecs.service.DoctorRatingService;
 import jakarta.validation.Valid;
@@ -16,7 +17,7 @@ public class DoctorRatingController {
     private final DoctorRatingService doctorRatingService;
 
     @PostMapping
-    public DoctorRatingDto addDoctorRating(@PathVariable Long doctorId, @Valid @RequestBody DoctorRatingDto doctorRating) {
+    public DoctorRatingDto addDoctorRating(@PathVariable Long doctorId, @Valid @RequestBody AddDoctorRatingDto doctorRating) {
         return doctorRatingService.addDoctorRating(doctorId, doctorRating);
     }
 

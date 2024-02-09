@@ -22,9 +22,9 @@ public class ProductController {
         return productService.addProduct(product);
     }
 
-    @PostMapping(path = "/getByTags")
-    public List<ProductRatingHelperDto> getProductsByTags(@Valid @RequestBody List<TagDto> tags) {
-        return productService.getProductsByTags(tags);
+    @GetMapping(path = "/getByUserTags")
+    public List<ProductRatingHelperDto> getProductsByTags() {
+        return productService.getProductsByTags();
     }
 
     @GetMapping

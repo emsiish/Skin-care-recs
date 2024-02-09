@@ -36,11 +36,11 @@ const QuestionPage = ({ totalQuestions }) => {
         } else {
             const headers = { Authorization: `Bearer ${token}` };
             // Navigate to the put request
-            axios.put(`${API_BASE_URL}${USERS_ENDPOINT}/1${USER_TAGS_ENDPOINT}`, selectedOptions, {headers})
+            axios.put(`${API_BASE_URL}${USERS_ENDPOINT}/2${USER_TAGS_ENDPOINT}`, selectedOptions, {headers})
                 .then((res) => {
                 console.log(res.data);
             });
-            navigate('/products', { state: { selectedOptions } });
+            navigate('/products');
         }
     };
     const progress = (questionNumber / totalQuestions) * 100;

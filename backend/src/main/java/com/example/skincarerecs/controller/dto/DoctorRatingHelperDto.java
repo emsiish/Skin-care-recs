@@ -1,5 +1,6 @@
 package com.example.skincarerecs.controller.dto;
 
+import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
@@ -21,6 +22,7 @@ public class DoctorRatingHelperDto {
     @NotBlank(message = "Hospital cannot be blank")
     private String hospital;
 
+    @Digits(integer = 1, fraction = 1, message = "Invalid rating format")
     private Double averageRating;
     private int count;
 }
