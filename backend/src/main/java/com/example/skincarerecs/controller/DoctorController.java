@@ -1,7 +1,9 @@
 package com.example.skincarerecs.controller;
 
-import com.example.skincarerecs.controller.resources.DoctorResource;
+import com.example.skincarerecs.controller.dto.DoctorDto;
+import com.example.skincarerecs.controller.dto.DoctorRatingHelperDto;
 import com.example.skincarerecs.service.DoctorService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,22 +16,22 @@ public class DoctorController {
     private final DoctorService doctorService;
 
     @PostMapping
-    public DoctorResource addDoctor(@RequestBody DoctorResource doctor) {
+    public DoctorDto addDoctor(@Valid @RequestBody DoctorDto doctor) {
         return doctorService.addDoctor(doctor);
     }
 
     @GetMapping
-    public List<DoctorResource> getAllDoctors() {
-        return doctorService.getAllDoctors();
+    public List<DoctorRatingHelperDto> getAllDoctors() {
+        return doctorService.getAllDoctorsWithRatings();
     }
 
     @GetMapping(path = "/{id}")
-    public DoctorResource getDoctorById(@PathVariable Long id) {
+    public DoctorDto getDoctorById(@PathVariable Long id) {
         return doctorService.getDoctorById(id);
     }
 
     @PutMapping(path = "/{id}")
-    public DoctorResource updateDoctor(@PathVariable Long id, @RequestBody DoctorResource doctor) {
+    public DoctorDto updateDoctor(@PathVariable Long id, @Valid @RequestBody DoctorDto doctor) {
         return doctorService.updateDoctor(id, doctor);
     }
 

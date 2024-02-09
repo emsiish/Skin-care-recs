@@ -5,17 +5,16 @@
 
 body {
     background-image: url("../../public/background-2hNibB9bh-transformed.png");
-    background-size: cover; /* This will make the image cover the entire container */
-    background-position: center; /* Center the image */
+    background-size: cover;
+    background-position: center;
     background-repeat: no-repeat;
     font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
+    background-color: #78BEE3;
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100vh; /* Make sure the body takes the full height of the viewport */
 }
 
 .container {
@@ -32,14 +31,14 @@ button {
     background-color: #78BEE3;
     color: white;
     padding: 10px 20px;
-    border-radius: 20px; /* Make the button round by setting border-radius to half of its height */
+    border-radius: 20px;
     border: none;
     cursor: pointer;
     font-size: 16px;
 }
 
 button:hover {
-    background-color: #0e4a6c; /* Button background color */
+    background-color: #0e4a6c;
 }
 
 label {
@@ -58,15 +57,10 @@ input[type="radio"] {
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     text-align: center;
 }
-
-/* styles.css */
-
-/* ... (existing styles) */
-
 nav {
     position: fixed;
     top: 0;
-    left: 0; /* Ensure the navbar starts from the left edge */
+    left: 0;
     width: 100%;
     background-color: #0e4a6c;
     padding: 10px;
@@ -104,7 +98,3 @@ nav a {
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-
-/* ... (existing styles) */
-
-/* Add more styles as needed */

@@ -1,19 +1,23 @@
 package com.example.skincarerecs.mapper;
 
+import com.example.skincarerecs.controller.dto.DoctorRatingHelperDto;
 import org.mapstruct.Mapper;
 
-import com.example.skincarerecs.controller.resources.DoctorResource;
+import com.example.skincarerecs.controller.dto.DoctorDto;
 import com.example.skincarerecs.entity.Doctor;
 import org.mapstruct.factory.Mappers;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Mapper
+@Mapper(componentModel = "spring")
+@Component
 public interface DoctorMapper {
-    DoctorMapper DOCTOR_MAPPER = Mappers.getMapper(DoctorMapper.class);
-    Doctor mapToDoctor(DoctorResource doctorResource);
-    DoctorResource mapToDoctorResource(Doctor doctor);
+    //DoctorMapper DOCTOR_MAPPER = Mappers.getMapper(DoctorMapper.class);
+    Doctor mapToDoctor(DoctorDto doctorDto);
+    DoctorDto mapToDoctorResource(Doctor doctor);
 
-    List<DoctorResource> mapToDoctorResourceList(List<Doctor> doctorList);
+    List<DoctorDto> mapToDoctorResourceList(List<Doctor> doctorList);
 
+    List<DoctorRatingHelperDto> mapToDoctorRatingHelperResourceList(List<Doctor> doctors);
 }

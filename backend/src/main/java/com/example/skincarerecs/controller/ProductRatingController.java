@@ -1,7 +1,9 @@
 package com.example.skincarerecs.controller;
 
-import com.example.skincarerecs.controller.resources.ProductRatingResource;
+import com.example.skincarerecs.controller.dto.AddProductRatingDto;
+import com.example.skincarerecs.controller.dto.ProductRatingDto;
 import com.example.skincarerecs.service.ProductRatingService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,16 +17,16 @@ public class ProductRatingController {
     private final ProductRatingService productRatingService;
 
     @PostMapping
-    public ProductRatingResource addProductRating(@PathVariable Long productId, @RequestBody ProductRatingResource productRating) {
+    public ProductRatingDto addProductRating(@PathVariable Long productId, @Valid @RequestBody AddProductRatingDto productRating) {
         return productRatingService.addProductRating(productId, productRating);
     }
 
     @GetMapping
-    public List<ProductRatingResource> getAllProductRatings(@PathVariable Long productId) {
+    public List<ProductRatingDto> getAllProductRatings(@PathVariable Long productId) {
         return productRatingService.getAllProductRatings(productId);
     }
     @GetMapping(path = "/{id}")
-    public ProductRatingResource getProductRatingById(@PathVariable Long productId, @PathVariable Long id) {
+    public ProductRatingDto getProductRatingById(@PathVariable Long productId, @PathVariable Long id) {
         return productRatingService.getProductRatingById(productId, id);
     }
 

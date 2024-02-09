@@ -1,17 +1,23 @@
 package com.example.skincarerecs.mapper;
 
-import com.example.skincarerecs.controller.resources.ProductResource;
+import com.example.skincarerecs.controller.dto.ProductDto;
+import com.example.skincarerecs.controller.dto.ProductRatingHelperDto;
 import com.example.skincarerecs.entity.Product;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Mapper
+@Mapper(uses = {TagMapper.class}, componentModel = "spring")
+@Component
 public interface ProductMapper {
-    ProductMapper PRODUCT_MAPPER = Mappers.getMapper(ProductMapper.class);
-    Product mapToProduct(ProductResource productResource);
-    ProductResource mapToProductResource(Product product);
+    //ProductMapper PRODUCT_MAPPER = Mappers.getMapper(ProductMapper.class);
+    Product mapToProduct(ProductDto productDto);
+    ProductDto mapToProductResource(Product product);
 
-    List<ProductResource> mapToProductResourceList(List<Product> all);
+    List<ProductDto> mapToProductResourceList(List<Product> all);
+
+    ProductRatingHelperDto mapToProductRatingHelperResource(Product product);
+    List<ProductRatingHelperDto> mapToProductRatingHelperResourceList(List<Product> all);
 }

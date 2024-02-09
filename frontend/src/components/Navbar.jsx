@@ -1,4 +1,3 @@
-// src/components/Navbar.js
 import React from 'react';
 import { Link } from 'react-router-dom';
 
@@ -10,6 +9,9 @@ const Navbar = () => (
             </li>
             <li>
                 <Link to="/products" className="text-white font-bold">Products</Link>
+            </li>
+            <li>
+                <Link to="/doctors" className="text-white font-bold">Doctors</Link>
             </li>
         </ul>
     </nav>
