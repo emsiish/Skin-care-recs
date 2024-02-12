@@ -1,0 +1,55 @@
+package com.example.skincarerecs.service.impl;
+
+import com.example.skincarerecs.config.JwtService;
+import com.example.skincarerecs.controller.dto.LoginDto;
+import com.example.skincarerecs.controller.dto.TokenDto;
+import com.example.skincarerecs.controller.dto.UserDto;
+import com.example.skincarerecs.entity.Role;
+import com.example.skincarerecs.entity.User;
+import com.example.skincarerecs.repository.UserRepository;
+import com.example.skincarerecs.service.AuthenticationService;
+import lombok.RequiredArgsConstructor;
+import org.hibernate.validator.internal.engine.messageinterpolation.parser.Token;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+@Service
+@RequiredArgsConstructor
+public class AuthenticationServiceImpl implements AuthenticationService {
+    private final UserRepository repository;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
+    private final AuthenticationManager authenticationManager;
+
+    public TokenDto register(UserDto request) {
+        var user = User.builder()
+                .name(request.getName())
+                .email(request.getEmail())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .role(Role.USER)
+                .build();
+
+        repository.save(user);
+        var jwtToken = jwtService.generateToken(user);
+
+        return TokenDto.builder()
+                .token(jwtToken)
+                .build();
+    }
+
+    public TokenDto login(LoginDto request) {
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        request.getEmail(),
+                        request.getPassword()
+                )
+        );
+        var client = repository.findByEmail(request.getEmail()).orElseThrow();
+        var jwtToken = jwtService.generateToken(client);
+        return TokenDto.builder()
+                .token(jwtToken)
+                .build();
+    }
+}
