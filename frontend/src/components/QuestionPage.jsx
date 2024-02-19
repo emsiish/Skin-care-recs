@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { API_BASE_URL, USERS_ENDPOINT, USER_TAGS_ENDPOINT } from '../api';
 import {useAuth} from "./Auth";
-
+import * as jose from 'jose';
 
 const questions = [
     'What is your skin type?',
@@ -34,13 +34,30 @@ const QuestionPage = ({ totalQuestions }) => {
         if (questionIndex < questions.length - 1) {
             navigate(`/question/${questionIndex + 2}`);
         } else {
-            const headers = { Authorization: `Bearer ${token}` };
-            // Navigate to the put request
-            axios.put(`${API_BASE_URL}${USERS_ENDPOINT}/2${USER_TAGS_ENDPOINT}`, selectedOptions, {headers})
-                .then((res) => {
-                console.log(res.data);
-            });
-            navigate('/products');
+            // Retrieve the token from local storage
+            if (token) {
+                // Decode the token to access the payload
+                const decodedToken = jose.decodeJwt(token);
+
+                // Check if the decodedToken contains the user ID
+                if (decodedToken && decodedToken.id) {
+                    const userId = decodedToken.id;
+
+                    const headers = { Authorization: `Bearer ${token}` };
+
+                    // Include the user ID in the URL
+                    axios.put(`${API_BASE_URL}${USERS_ENDPOINT}/${userId}${USER_TAGS_ENDPOINT}`, selectedOptions, { headers })
+                        .catch((error) => {
+                            console.error('Error during PUT request:', error);
+                        });
+
+                    navigate('/products');
+                } else {
+                    console.error('Unable to retrieve user ID from JWT token.');
+                }
+            } else {
+                console.error('JWT token not found in local storage.');
+            }
         }
     };
     const progress = (questionNumber / totalQuestions) * 100;

@@ -9,7 +9,6 @@ import com.example.skincarerecs.entity.User;
 import com.example.skincarerecs.repository.UserRepository;
 import com.example.skincarerecs.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.validator.internal.engine.messageinterpolation.parser.Token;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -32,7 +31,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .build();
 
         repository.save(user);
-        var jwtToken = jwtService.generateToken(user);
+        var jwtToken = jwtService.generateToken(user.getId(), user);
 
         return TokenDto.builder()
                 .token(jwtToken)
@@ -47,7 +46,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 )
         );
         var client = repository.findByEmail(request.getEmail()).orElseThrow();
-        var jwtToken = jwtService.generateToken(client);
+        var jwtToken = jwtService.generateToken(client.getId(), client);
         return TokenDto.builder()
                 .token(jwtToken)
                 .build();

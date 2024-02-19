@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { API_BASE_URL, DOCTORS_ENDPOINT, DOCTOR_RATINGS_ENDPOINT } from '../api';
 import {useAuth} from "./Auth";
+import {FaTimes} from "react-icons/fa";
 
 const DoctorsPage = () => {
     const [doctors, setDoctors] = useState([]);
@@ -63,7 +64,7 @@ const DoctorsPage = () => {
                                 <div className="mt-2">
                                     <strong>Average Rating: </strong>{doctor.averageRating ?? 0}
                                 </div>
-                                <button onClick={() => handleFetchRatings(doctor.id, doctor.name)} className="mt-2 bg-blue-500 text-white p-2 rounded">
+                                <button onClick={() => handleFetchRatings(doctor.id, doctor.name)} className="mt-2 mr-2 bg-blue-500 text-white p-2 rounded">
                                     Show Ratings
                                 </button>
                                 <button onClick={() => setAddRating(doctor.id)} className="mt-2 bg-blue-500 text-white p-2 rounded">
@@ -76,34 +77,47 @@ const DoctorsPage = () => {
             </div>
             {selectedDoctor && (
                 <div className="fixed inset-0 bg-gray-700 bg-opacity-50 flex items-center justify-center">
-                    <div className="bg-white p-4 rounded-md">
-                        <h2 className="text-xl font-bold mb-2">{selectedDoctor.name} Ratings</h2>
-                        {/* Display each rating */}
-                        {selectedDoctor.ratings.map((rating) => (
-                            <div key={rating.id}>
-                                <p><strong>Rating: </strong>{rating.rating}</p>
-                                <p><strong>Comment: </strong>{rating.comment}</p>
-                                <p><strong>By: </strong>{rating.user.name}</p>
-                                <hr className="my-2" />
+                    <div className="bg-white p-4 rounded-md h-3/6 overflow-y-auto relative">
+                        <div className="flex flex-col">
+                            <div className="flex items-center justify-between mb-2">
+                                <h2 className="text-xl font-bold">{selectedDoctor.name} Ratings</h2>
+                                <button
+                                    onClick={() => setSelectedDoctor(null)}
+                                    className="bg-white text-red-500 hover:text-red-800 hover:bg-white"
+                                >
+                                    <FaTimes /> {/* React Icons "X" icon */}
+                                </button>
                             </div>
-                        ))}
-                        <button onClick={() => setSelectedDoctor(null)} className="mt-4 bg-gray-500 text-white p-2 rounded">
-                            Close
-                        </button>
+                            {/* Display each rating on the left */}
+                            {selectedDoctor.ratings.map((rating) => (
+                                <div key={rating.id} className="items-start">
+                                    <div className="mr-4">
+                                        <p><strong>Rating: </strong>{rating.rating}</p>
+                                        <p><strong>Comment: </strong>{rating.comment}</p>
+                                        <p><strong>By: </strong>{rating.user.name}</p>
+                                    </div>
+                                    <hr className="my-2 border-t border-gray-300" />
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </div>
             )}
             {addRating && (
                 <div className="fixed inset-0 bg-gray-700 bg-opacity-50 flex items-center justify-center">
-                    <div className="bg-white p-4 rounded-md">
-                        <input type="number" id="rating" placeholder="Rating" />
-                        <input type="text" id="comment" placeholder="Comment" />
-                        <button onClick={() => handleAddRating(addRating)} className="mt-2 bg-blue-500 text-white p-2 rounded">
-                            Add Rating
-                        </button>
-                        <button onClick={() => setAddRating(null)} className="mt-2 bg-gray-500 text-white p-2 rounded">
-                            Close
-                        </button>
+                    <div className="bg-white p-4 rounded-md flex flex-col">
+                        <div className="flex flex-col mb-5 gap-2">
+                            <input type="number" id="rating" placeholder="Rating" />
+                            <input type="text" id="comment" placeholder="Comment" className="mt-2" />
+                        </div>
+                        <div className="flex flex-row justify-between">
+                            <button onClick={() => handleAddRating(addRating)} className="bg-blue-500 text-white p-2 rounded mr-2">
+                                Add Rating
+                            </button>
+                            <button onClick={() => setAddRating(null)} className="bg-gray-500 text-white p-2 rounded">
+                                Close
+                            </button>
+                        </div>
                     </div>
                 </div>
             )}
