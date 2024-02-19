@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
-import { API_BASE_URL, USERS_ENDPOINT, USER_TAGS_ENDPOINT } from '../api';
+import {API_BASE_URL, USERS_ENDPOINT, USER_TAGS_ENDPOINT} from '../api';
 import {useAuth} from "./Auth";
 import * as jose from 'jose';
 
+/*
 const questions = [
     'What is your skin type?',
     'Which skincare concerns do you have?',
@@ -16,14 +17,30 @@ const options = [
     ['Acne', 'Dryness', 'Wrinkles', 'None'],
     ['Morning', 'Evening', 'Both', 'None'],
 ];
+*/
 
 const QuestionPage = ({ totalQuestions }) => {
     const { questionNumber } = useParams();
     const navigate = useNavigate();
     const questionIndex = parseInt(questionNumber, 10) - 1;
+    const [questions, setQuestions] = useState([]);
     const { token } = useAuth();
 
-    const [selectedOptions, setSelectedOptions] = useState(Array(questions.length).fill({ name: '' }));
+    useEffect(() => {
+        console.log('Fetching questions...');
+        const headers = { Authorization: `Bearer ${token}` };
+        axios.get(`http://127.0.0.1:8080/api/v1/questions`, { headers })
+            .then((res) => {
+                const questionsData = res.data;
+                console.log(questionsData);
+                setQuestions(questionsData);
+            })
+            .catch((err) => {
+                console.error('Error fetching questions:', err);
+            });
+    }, [token]);
+
+    const [selectedOptions, setSelectedOptions] = useState(Array(totalQuestions).fill({ name: '' }));
     const handleOptionChange = (option) => {
         const newSelectedOptions = [...selectedOptions];
         newSelectedOptions[questionIndex] = { name: option };
@@ -73,28 +90,34 @@ const QuestionPage = ({ totalQuestions }) => {
                     <div className="w-full bg-gray-200 rounded-full h-1.5 mb-4 dark:bg-gray-700" style={{ width: '100%' }}>
                         <div className="bg-blue-600 h-1.5 rounded-full dark:bg-blue-500" style={{ width: `${progress}%` }}></div>
                     </div>
-                    <h2 className="text-3xl font-bold mb-4">{questions[questionIndex]}</h2>
-                    <form className="flex flex-col items-start">
-                        {options[questionIndex].map((option) => (
-                            <label key={option} className="block mb-2">
-                                <input
-                                    type="radio"
-                                    value={option}
-                                    checked={selectedOptions[questionIndex].name === option}
-                                    onChange={() => handleOptionChange(option)}
-                                    className="mr-2"
-                                    required
-                                />
-                                {option}
-                            </label>
-                        ))}
-                    </form>
-                    <button
-                        onClick={handleNext}
-                        className="bg-blue-600 text-white px-4 py-2 rounded-full mt-4 hover:bg-blue-500"
-                    >
-                        Next
-                    </button>
+                    {questions.length > 0 ? (
+                        <>
+                            <h2 className="text-3xl font-bold mb-4">{questions[questionIndex].question}</h2>
+                            <form className="flex flex-col items-start">
+                                {questions[questionIndex].tags.map((tag) => (
+                                    <label key={tag.id} className="block mb-2">
+                                        <input
+                                            type="radio"
+                                            value={tag.name}
+                                            checked={selectedOptions[questionIndex].name === tag.name}
+                                            onChange={() => handleOptionChange(tag.name)}
+                                            className="mr-2"
+                                            required
+                                        />
+                                        {tag.name}
+                                    </label>
+                                ))}
+                            </form>
+                            <button
+                                onClick={handleNext}
+                                className="bg-blue-600 text-white px-4 py-2 rounded-full mt-4 hover:bg-blue-500"
+                            >
+                                Next
+                            </button>
+                        </>
+                    ) : (
+                        <p>Loading questions...</p>
+                    )}
                 </div>
             </div>
         </div>

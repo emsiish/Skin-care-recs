@@ -26,4 +26,7 @@ public class Tag {
 
     @ManyToMany(mappedBy = "tags", cascade = CascadeType.MERGE)
     List<Product> products;
+
+    @ManyToMany(mappedBy = "tags", cascade = CascadeType.MERGE)
+    List<Question> questions;
 }

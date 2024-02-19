@@ -1,4 +1,3 @@
-// src/App.jsx
 import React, {Fragment} from 'react';
 import {BrowserRouter as Router, Navigate, Outlet, Route, Routes} from 'react-router-dom';
 import StartPage from './components/StartPage';
