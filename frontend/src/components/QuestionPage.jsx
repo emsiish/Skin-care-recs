@@ -31,33 +31,37 @@ const QuestionPage = ({ totalQuestions }) => {
     };
 
     const handleNext = () => {
-        if (questionIndex < questions.length - 1) {
+        if (selectedOptions[questionIndex].name) {
+            if (questionIndex < questions.length - 1) {
             navigate(`/question/${questionIndex + 2}`);
-        } else {
-            // Retrieve the token from local storage
-            if (token) {
-                // Decode the token to access the payload
-                const decodedToken = jose.decodeJwt(token);
-
-                // Check if the decodedToken contains the user ID
-                if (decodedToken && decodedToken.id) {
-                    const userId = decodedToken.id;
-
-                    const headers = { Authorization: `Bearer ${token}` };
-
-                    // Include the user ID in the URL
-                    axios.put(`${API_BASE_URL}${USERS_ENDPOINT}/${userId}${USER_TAGS_ENDPOINT}`, selectedOptions, { headers })
-                        .catch((error) => {
-                            console.error('Error during PUT request:', error);
-                        });
-
-                    navigate('/products');
-                } else {
-                    console.error('Unable to retrieve user ID from JWT token.');
-                }
             } else {
-                console.error('JWT token not found in local storage.');
+                // Retrieve the token from local storage
+                if (token) {
+                    // Decode the token to access the payload
+                    const decodedToken = jose.decodeJwt(token);
+
+                    // Check if the decodedToken contains the user ID
+                    if (decodedToken && decodedToken.id) {
+                        const userId = decodedToken.id;
+
+                        const headers = {Authorization: `Bearer ${token}`};
+
+                        // Include the user ID in the URL
+                        axios.put(`${API_BASE_URL}${USERS_ENDPOINT}/${userId}${USER_TAGS_ENDPOINT}`, selectedOptions, {headers})
+                            .catch((error) => {
+                                console.error('Error during PUT request:', error);
+                            });
+
+                        navigate('/products');
+                    } else {
+                        console.error('Unable to retrieve user ID from JWT token.');
+                    }
+                } else {
+                    console.error('JWT token not found in local storage.');
+                }
             }
+        } else {
+            alert('Please select an option');
         }
     };
     const progress = (questionNumber / totalQuestions) * 100;
@@ -65,12 +69,12 @@ const QuestionPage = ({ totalQuestions }) => {
     return (
         <div className="flex items-center justify-center h-screen">
             <div className="container max-w-md">
-                <div className="card bg-white p-4 rounded-lg shadow-md w-full">
+                <div className="card bg-white p-4 rounded-lg shadow-md w-full flex flex-col items-center">
                     <div className="w-full bg-gray-200 rounded-full h-1.5 mb-4 dark:bg-gray-700" style={{ width: '100%' }}>
                         <div className="bg-blue-600 h-1.5 rounded-full dark:bg-blue-500" style={{ width: `${progress}%` }}></div>
                     </div>
                     <h2 className="text-3xl font-bold mb-4">{questions[questionIndex]}</h2>
-                    <form>
+                    <form className="flex flex-col items-start">
                         {options[questionIndex].map((option) => (
                             <label key={option} className="block mb-2">
                                 <input
@@ -79,6 +83,7 @@ const QuestionPage = ({ totalQuestions }) => {
                                     checked={selectedOptions[questionIndex].name === option}
                                     onChange={() => handleOptionChange(option)}
                                     className="mr-2"
+                                    required
                                 />
                                 {option}
                             </label>
@@ -94,6 +99,7 @@ const QuestionPage = ({ totalQuestions }) => {
             </div>
         </div>
     );
+
 };
 
 export default QuestionPage;
