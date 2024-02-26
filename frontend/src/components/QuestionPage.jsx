@@ -5,20 +5,6 @@ import {API_BASE_URL, USERS_ENDPOINT, USER_TAGS_ENDPOINT} from '../api';
 import {useAuth} from "./Auth";
 import * as jose from 'jose';
 
-/*
-const questions = [
-    'What is your skin type?',
-    'Which skincare concerns do you have?',
-    'What is your preferred skincare routine?',
-];
-
-const options = [
-    ['Normal', 'Oily', 'Dry', 'Combination'],
-    ['Acne', 'Dryness', 'Wrinkles', 'None'],
-    ['Morning', 'Evening', 'Both', 'None'],
-];
-*/
-
 const QuestionPage = ({ totalQuestions }) => {
     const { questionNumber } = useParams();
     const navigate = useNavigate();
@@ -47,7 +33,7 @@ const QuestionPage = ({ totalQuestions }) => {
         setSelectedOptions(newSelectedOptions);
     };
 
-    const handleNext = () => {
+    const handleNext = async () => {
         if (selectedOptions[questionIndex].name) {
             if (questionIndex < questions.length - 1) {
             navigate(`/question/${questionIndex + 2}`);
@@ -64,12 +50,14 @@ const QuestionPage = ({ totalQuestions }) => {
                         const headers = {Authorization: `Bearer ${token}`};
 
                         // Include the user ID in the URL
-                        axios.put(`${API_BASE_URL}${USERS_ENDPOINT}/${userId}${USER_TAGS_ENDPOINT}`, selectedOptions, {headers})
-                            .catch((error) => {
-                                console.error('Error during PUT request:', error);
-                            });
-
-                        navigate('/products');
+                        try {
+                            // Wait for the PUT request to complete before navigating
+                            await axios.put(`${API_BASE_URL}${USERS_ENDPOINT}/${userId}${USER_TAGS_ENDPOINT}`, selectedOptions, { headers });
+                            navigate('/products');
+                        } catch (error) {
+                            console.error('Error during PUT request:', error);
+                            // Handle the error if needed
+                        }
                     } else {
                         console.error('Unable to retrieve user ID from JWT token.');
                     }

@@ -32,7 +32,6 @@ public class DoctorRatingServiceImpl implements DoctorRatingService {
         log.info("Adding a new doctor rating for doctor ID {}: {}", doctorId, doctorRating);
         DoctorRating doctorRatingEntity = doctorRatingMapper.mapToDoctorRating(doctorRating);
 
-        //TODO: Set relationships here if needed
         String currentUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
         User userEntity = userRepository.findByEmail(currentUserEmail).orElseThrow();
         Doctor doctorEntity = doctorRepository.findById(doctorId).orElseThrow();

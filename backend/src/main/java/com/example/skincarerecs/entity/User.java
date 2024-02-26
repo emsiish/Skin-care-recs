@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 import java.util.Collection;
 import java.util.List;
 
-import jakarta.validation.constraints.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,14 +23,11 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Name cannot be blank")
     private String name;
 
-    @Email(message = "Email should be valid")
-    @NotBlank(message = "Email cannot be blank")
+    @Column(unique = true)
     private String email;
 
-    @NotBlank(message = "Password cannot be blank")
     private String password;
 
     @Enumerated(EnumType.STRING)
