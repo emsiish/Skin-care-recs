@@ -1,6 +1,5 @@
 package com.example.skincarerecs.repository;
 
-import com.example.skincarerecs.controller.dto.TagDto;
 import com.example.skincarerecs.entity.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

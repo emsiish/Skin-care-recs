@@ -10,9 +10,7 @@ import java.util.List;
 @Mapper(uses = {TagMapper.class}, componentModel = "spring")
 @Component
 public interface UserMapper {
-    //UserMapper USER_MAPPER = Mappers.getMapper(UserMapper.class);
     User mapToUser(UserDto userDto);
-    UserDto mapToUserResource(User user);
-
-    List<UserDto> mapToUserResourceList(List<User> all);
+    UserDto mapToUserDto(User user);
+    List<UserDto> mapToUserDtoList(List<User> all);
 }

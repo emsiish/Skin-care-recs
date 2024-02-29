@@ -1,8 +1,7 @@
 package com.example.skincarerecs.service.impl;
 
 import com.example.skincarerecs.controller.dto.ProductDto;
-import com.example.skincarerecs.controller.dto.ProductRatingHelperDto;
-import com.example.skincarerecs.controller.dto.TagDto;
+import com.example.skincarerecs.controller.dto.ProductRatingSummaryDto;
 import com.example.skincarerecs.entity.Product;
 import com.example.skincarerecs.entity.Tag;
 import com.example.skincarerecs.entity.User;
@@ -34,7 +33,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDto addProduct(ProductDto product) {
-        log.info("Adding a new product: {}", product);
+        log.info("Adding a new product: {}", product.getName());
         Product productEntity = productMapper.mapToProduct(product);
         List<Tag> tagsEntity = product.getTags().stream()
                 .map(tag -> tagRepository.findByName(tag.getName()).orElseThrow())
@@ -42,19 +41,19 @@ public class ProductServiceImpl implements ProductService {
 
         productEntity.setTags(tagsEntity);
         productRepository.save(productEntity);
-        log.info("Product added successfully: {}", product);
-        return productMapper.mapToProductResource(productEntity);
+        log.info("Product added successfully: {}", product.getName());
+        return productMapper.mapToProductDto(productEntity);
     }
 
     @Override
     public ProductDto getProductById(Long id) {
         log.info("Fetching product by ID: {}", id);
-        return productMapper.mapToProductResource(productRepository.findById(id).orElseThrow());
+        return productMapper.mapToProductDto(productRepository.findById(id).orElseThrow());
     }
 
     @Override
     public ProductDto updateProduct(Long id, ProductDto product) {
-        log.info("Updating product with ID {}: {}", id, product);
+        log.info("Updating product with ID {}.", id);
         Product productEntity = productRepository.findById(id).orElseThrow();
         productEntity.setName(product.getName());
         productEntity.setBrand(product.getBrand());
@@ -64,9 +63,9 @@ public class ProductServiceImpl implements ProductService {
 
         productRepository.save(productEntity);
 
-        log.info("Product updated successfully: {}", productEntity);
+        log.info("Product updated successfully: {}", product.getName());
 
-        return productMapper.mapToProductResource(productEntity);
+        return productMapper.mapToProductDto(productEntity);
     }
 
     @Override
@@ -79,11 +78,11 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductDto> getAllProducts() {
         log.info("Fetching all products.");
-        return productMapper.mapToProductResourceList(productRepository.findAll());
+        return productMapper.mapToProductDtoList(productRepository.findAll());
     }
 
     @Override
-    public List<ProductRatingHelperDto> getProductsByTags() {
+    public List<ProductRatingSummaryDto> getProductsByTags() {
         String currentUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
 
         User user = userRepository.findByEmail(currentUserEmail).orElseThrow();
@@ -93,7 +92,7 @@ public class ProductServiceImpl implements ProductService {
 
         List<Product> products = productRepository.findByTags(tagNames);
 
-        List<ProductRatingHelperDto> productRatingsHelper = productMapper.mapToProductRatingHelperResourceList(products);
+        List<ProductRatingSummaryDto> productRatingsHelper = productMapper.mapToProductRatingSummaryDtoList(products);
 
         productRatingsHelper.forEach(productRatingHelper -> {
             productRatingHelper.setAverageRating(productRatingRepository.getAverageRatingByProductId(productRatingHelper.getId()));

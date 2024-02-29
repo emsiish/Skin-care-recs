@@ -8,7 +8,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class ProductRatingHelperDto{
+public class ProductRatingSummaryDto {
     private Long id;
 
     @NotBlank(message = "Name cannot be blank")

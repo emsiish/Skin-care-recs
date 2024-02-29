@@ -29,7 +29,7 @@ public class DoctorRatingServiceImpl implements DoctorRatingService {
 
     @Override
     public DoctorRatingDto addDoctorRating(Long doctorId, AddDoctorRatingDto doctorRating) {
-        log.info("Adding a new doctor rating for doctor ID {}: {}", doctorId, doctorRating);
+        log.info("Adding a new doctor rating for doctor ID {}.", doctorId);
         DoctorRating doctorRatingEntity = doctorRatingMapper.mapToDoctorRating(doctorRating);
 
         String currentUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -40,21 +40,21 @@ public class DoctorRatingServiceImpl implements DoctorRatingService {
 
         doctorRatingRepository.save(doctorRatingEntity);
 
-        log.info("Doctor rating added successfully for doctor ID {}: {}", doctorId, doctorRating);
+        log.info("Doctor rating added successfully for doctor ID {}.", doctorId);
 
-        return doctorRatingMapper.mapToDoctorRatingResource(doctorRatingEntity);
+        return doctorRatingMapper.mapToDoctorRatingDto(doctorRatingEntity);
     }
 
     @Override
     public List<DoctorRatingDto> getAllDoctorRatings(Long doctorId) {
         log.info("Fetching all doctor ratings for doctor ID: {}", doctorId);
-        return doctorRatingMapper.mapToDoctorRatingResourceList(doctorRatingRepository.findAllByDoctorId(doctorId));
+        return doctorRatingMapper.mapToDoctorRatingDtoList(doctorRatingRepository.findAllByDoctorId(doctorId));
     }
 
     @Override
     public DoctorRatingDto getDoctorRatingById(Long doctorId, Long id) {
         log.info("Fetching doctor rating by ID {} for doctor ID: {}", id, doctorId);
-        return doctorRatingMapper.mapToDoctorRatingResource(doctorRatingRepository.findById(id).orElseThrow());
+        return doctorRatingMapper.mapToDoctorRatingDto(doctorRatingRepository.findById(id).orElseThrow());
     }
 
     @Override

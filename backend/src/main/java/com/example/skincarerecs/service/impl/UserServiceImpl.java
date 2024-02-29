@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto addUser(UserDto user) {
-        log.info("Adding a new user: {}", user);
+        log.info("Adding a new user: {}", user.getEmail());
         User userEntity = userMapper.mapToUser(user);
         List<Tag> tagsEntity = user.getTags().stream()
                 .map(tag -> tagRepository.findByName(tag.getName()).orElseThrow())
@@ -36,26 +36,26 @@ public class UserServiceImpl implements UserService {
 
         userEntity.setTags(tagsEntity);
         userRepository.save(userEntity);
-        log.info("User added successfully: {}", user);
+        log.info("User added successfully: {}", user.getEmail());
 
-        return userMapper.mapToUserResource(userEntity);
+        return userMapper.mapToUserDto(userEntity);
     }
 
     @Override
     public List<UserDto> getAllUsers() {
         log.info("Fetching all users.");
-        return userMapper.mapToUserResourceList(userRepository.findAll());
+        return userMapper.mapToUserDtoList(userRepository.findAll());
     }
 
     @Override
     public UserDto getUserById(Long id) {
         log.info("Fetching user by ID: {}", id);
-        return userMapper.mapToUserResource(userRepository.findById(id).orElseThrow());
+        return userMapper.mapToUserDto(userRepository.findById(id).orElseThrow());
     }
 
     @Override
     public UserDto updateUser(Long id, UserDto user) {
-        log.info("Updating user with ID {}: {}", id, user);
+        log.info("Updating user with ID {}.", id);
         User userEntity = userRepository.findById(id).orElseThrow();
 
         userEntity.setName(user.getName());
@@ -64,9 +64,9 @@ public class UserServiceImpl implements UserService {
 
         userRepository.save(userEntity);
 
-        log.info("User updated successfully: {}", userEntity);
+        log.info("User updated successfully: {}", user.getEmail());
 
-        return userMapper.mapToUserResource(userEntity);
+        return userMapper.mapToUserDto(userEntity);
     }
 
     @Override
@@ -80,9 +80,9 @@ public class UserServiceImpl implements UserService {
         userEntity.setTags(tagsEntity);
         userRepository.save(userEntity);
 
-        log.info("User's tags updated successfully: {}", userEntity);
+        log.info("User's tags updated successfully: {}", userEntity.getEmail());
 
-        return userMapper.mapToUserResource(userEntity);
+        return userMapper.mapToUserDto(userEntity);
     }
 
     @Override

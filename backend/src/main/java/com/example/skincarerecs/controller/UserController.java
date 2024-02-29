@@ -38,7 +38,6 @@ public class UserController {
 
     @PutMapping(path = "/{id}/tags")
     public UserDto updateUser(@PathVariable Long id, @Valid @RequestBody List<TagDto> tags) {
-        System.out.println("tags: " + tags);
         return userService.updateUserTags(id, tags);
     }
 }

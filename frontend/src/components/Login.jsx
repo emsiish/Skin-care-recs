@@ -1,4 +1,3 @@
-// Login.js
 import React, { useState } from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import axios from 'axios';
@@ -9,7 +8,7 @@ const Login = () => {
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const { login } = useAuth(); // Use the useAuth hook to get the login function
+    const { login } = useAuth();
 
     const handleLogin = async () => {
         try {
@@ -20,13 +19,11 @@ const Login = () => {
 
             const token = response.data.token;
 
-            // Call the login function from the useAuth hook to set the token
             login(token);
             navigate('/');
             console.log('Login successful');
         } catch (error) {
             console.error('Login failed', error);
-            // Handle login failure
         }
     };
 

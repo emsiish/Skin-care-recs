@@ -5,7 +5,6 @@ import lombok.Data;
 import java.util.List;
 
 import jakarta.validation.constraints.*;
-import lombok.NonNull;
 
 @Data
 public class UserDto {

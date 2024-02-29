@@ -23,13 +23,13 @@ public class TagServiceImpl implements TagService {
         Tag tagEntity = tagMapper.mapToTag(tag);
         tagRepository.save(tagEntity);
         log.info("Tag added successfully: {}", tag);
-        return tagMapper.mapToTagResource(tagEntity);
+        return tagMapper.mapToTagDto(tagEntity);
     }
 
     @Override
     public TagDto getTagById(Long id) {
         log.info("Fetching tag by ID: {}", id);
-        return tagMapper.mapToTagResource(tagRepository.findById(id).orElseThrow());
+        return tagMapper.mapToTagDto(tagRepository.findById(id).orElseThrow());
     }
 
     @Override

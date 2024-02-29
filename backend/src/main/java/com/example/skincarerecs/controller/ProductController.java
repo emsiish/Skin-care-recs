@@ -1,8 +1,7 @@
 package com.example.skincarerecs.controller;
 
 import com.example.skincarerecs.controller.dto.ProductDto;
-import com.example.skincarerecs.controller.dto.ProductRatingHelperDto;
-import com.example.skincarerecs.controller.dto.TagDto;
+import com.example.skincarerecs.controller.dto.ProductRatingSummaryDto;
 import com.example.skincarerecs.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -23,7 +22,7 @@ public class ProductController {
     }
 
     @GetMapping(path = "/getByUserTags")
-    public List<ProductRatingHelperDto> getProductsByTags() {
+    public List<ProductRatingSummaryDto> getProductsByTags() {
         return productService.getProductsByTags();
     }
 

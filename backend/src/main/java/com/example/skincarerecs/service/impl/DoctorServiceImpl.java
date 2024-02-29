@@ -1,7 +1,7 @@
 package com.example.skincarerecs.service.impl;
 
 import com.example.skincarerecs.controller.dto.DoctorDto;
-import com.example.skincarerecs.controller.dto.DoctorRatingHelperDto;
+import com.example.skincarerecs.controller.dto.DoctorRatingSummaryDto;
 import com.example.skincarerecs.entity.Doctor;
 import com.example.skincarerecs.mapper.DoctorMapper;
 import com.example.skincarerecs.repository.DoctorRatingRepository;
@@ -24,20 +24,20 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public DoctorDto addDoctor(DoctorDto doctor) {
-        log.info("Adding a new doctor: {}", doctor);
+        log.info("Adding a new doctor: {}", doctor.getName());
         Doctor doctorEntity = doctorMapper.mapToDoctor(doctor);
         doctorRepository.save(doctorEntity);
-        log.info("Doctor added successfully: {}", doctor);
-        return doctorMapper.mapToDoctorResource(doctorEntity);
+        log.info("Doctor added successfully: {}", doctor.getName());
+        return doctorMapper.mapToDoctorDto(doctorEntity);
     }
 
     @Override
-    public List<DoctorRatingHelperDto> getAllDoctorsWithRatings() {
+    public List<DoctorRatingSummaryDto> getAllDoctorsWithRatings() {
         log.info("Fetching all doctors with ratings.");
 
         List<Doctor> doctors = doctorRepository.findAll();
 
-        List<DoctorRatingHelperDto> doctorRatingsHelper = doctorMapper.mapToDoctorRatingHelperResourceList(doctors);
+        List<DoctorRatingSummaryDto> doctorRatingsHelper = doctorMapper.mapToDoctorRatingSummaryDtoList(doctors);
 
         doctorRatingsHelper.forEach(doctorRatingHelper -> {
             doctorRatingHelper.setAverageRating(doctorRatingRepository.getAverageRatingByDoctorId(doctorRatingHelper.getId()));
@@ -51,23 +51,24 @@ public class DoctorServiceImpl implements DoctorService {
     @Override
     public DoctorDto getDoctorById(Long id) {
         log.info("Fetching doctor by ID: {}", id);
-        return doctorMapper.mapToDoctorResource(doctorRepository.findById(id).orElseThrow());
+        return doctorMapper.mapToDoctorDto(doctorRepository.findById(id).orElseThrow());
     }
 
     @Override
     public DoctorDto updateDoctor(Long id, DoctorDto doctor) {
-        log.info("Updating doctor with ID {}: {}", id, doctor);
+        log.info("Updating doctor with ID {}.", id);
         Doctor doctorEntity = doctorRepository.findById(id).orElseThrow();
         doctorEntity.setName(doctor.getName());
         doctorEntity.setPhoneNumber(doctor.getPhoneNumber());
         doctorEntity.setEmail(doctor.getEmail());
         doctorEntity.setHospital(doctor.getHospital());
+        doctorEntity.setImage(doctor.getImage());
 
         doctorRepository.save(doctorEntity);
 
-        log.info("Doctor updated successfully: {}", doctorEntity);
+        log.info("Doctor updated successfully: {}", doctorEntity.getName());
 
-        return doctorMapper.mapToDoctorResource(doctorEntity);
+        return doctorMapper.mapToDoctorDto(doctorEntity);
     }
 
     @Override

@@ -1,8 +1,7 @@
 package com.example.skincarerecs.service;
 
 import com.example.skincarerecs.controller.dto.ProductDto;
-import com.example.skincarerecs.controller.dto.ProductRatingHelperDto;
-import com.example.skincarerecs.controller.dto.TagDto;
+import com.example.skincarerecs.controller.dto.ProductRatingSummaryDto;
 
 import java.util.List;
 
@@ -14,5 +13,5 @@ public interface ProductService {
 
     List<ProductDto> getAllProducts();
 
-    List<ProductRatingHelperDto> getProductsByTags();
+    List<ProductRatingSummaryDto> getProductsByTags();
 }

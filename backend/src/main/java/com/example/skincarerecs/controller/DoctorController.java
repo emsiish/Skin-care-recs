@@ -1,7 +1,7 @@
 package com.example.skincarerecs.controller;
 
 import com.example.skincarerecs.controller.dto.DoctorDto;
-import com.example.skincarerecs.controller.dto.DoctorRatingHelperDto;
+import com.example.skincarerecs.controller.dto.DoctorRatingSummaryDto;
 import com.example.skincarerecs.service.DoctorService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -21,7 +21,7 @@ public class DoctorController {
     }
 
     @GetMapping
-    public List<DoctorRatingHelperDto> getAllDoctors() {
+    public List<DoctorRatingSummaryDto> getAllDoctors() {
         return doctorService.getAllDoctorsWithRatings();
     }
 

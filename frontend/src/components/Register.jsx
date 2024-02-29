@@ -9,7 +9,7 @@ const Register = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const { login } = useAuth(); // Use the useAuth hook to get the login function
+    const { login } = useAuth();
 
     const handleRegister = async () => {
         try {

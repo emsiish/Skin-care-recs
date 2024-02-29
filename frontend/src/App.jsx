@@ -2,7 +2,6 @@ import React, {Fragment} from 'react';
 import {BrowserRouter as Router, Navigate, Outlet, Route, Routes} from 'react-router-dom';
 import StartPage from './components/StartPage';
 import QuestionPage from './components/QuestionPage';
-import ResultsPage from './components/Results';
 import ProductsPage from './components/ProductsPage';
 import Navbar from './components/Navbar';
 import './components/styles.css';
@@ -26,8 +25,7 @@ const App = () => (
                         <Route exact path='/' element={<PrivateRoute/>}>
                             <Route exact path="/" element={<StartPage />} />
                             <Route exact path="/question/:questionNumber" element={<QuestionPage totalQuestions={3} />} />
-                            <Route exact path="/results" element={<ResultsPage />} />
-                            <Route exact path="/products" element={<ProductsPage />} />
+                            <Route path="/products" element={<ProductsPage />} />
                             <Route exact path="/doctors" element={<DoctorsPage />} />
                         </Route>
                         <Route exact path="/login" element={<Login />} />

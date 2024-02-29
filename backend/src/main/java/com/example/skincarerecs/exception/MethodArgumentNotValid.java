@@ -11,13 +11,11 @@ public class MethodArgumentNotValid {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<String> handleValidationException(MethodArgumentNotValidException ex) {
-        // Get validation errors from the exception
         String validationErrors = ex.getBindingResult().getFieldErrors().stream()
                 .map(DefaultMessageSourceResolvable::getDefaultMessage)
                 .reduce((message1, message2) -> message1 + ", " + message2)
                 .orElse("Invalid request");
 
-        // Return a response entity with a custom error message
         return ResponseEntity.badRequest().body(validationErrors);
     }
 }

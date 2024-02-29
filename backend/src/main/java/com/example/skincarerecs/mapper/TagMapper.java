@@ -3,7 +3,6 @@ package com.example.skincarerecs.mapper;
 import com.example.skincarerecs.controller.dto.TagDto;
 import com.example.skincarerecs.entity.Tag;
 import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -11,10 +10,8 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 @Component
 public interface TagMapper {
-    //TagMapper TAG_MAPPER = Mappers.getMapper(TagMapper.class);
-
     Tag mapToTag(TagDto tagDto);
-    TagDto mapToTagResource(Tag tag);
-    List<TagDto> mapToTagResourceList(List<Tag> all);
+    TagDto mapToTagDto(Tag tag);
+    List<TagDto> mapToTagDtoList(List<Tag> all);
     List<Tag> mapToTagList(List<TagDto> tags);
 }

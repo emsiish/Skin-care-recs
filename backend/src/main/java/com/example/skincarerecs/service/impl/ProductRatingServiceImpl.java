@@ -29,7 +29,7 @@ public class ProductRatingServiceImpl implements ProductRatingService {
 
     @Override
     public ProductRatingDto addProductRating(Long productId, AddProductRatingDto productRating) {
-        log.info("Adding a new product rating for product ID {}: {}", productId, productRating);
+        log.info("Adding a new product rating for product ID {}.", productId);
 
         Product productEntity = productRepository.findById(productId).orElseThrow();
         String currentUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -41,21 +41,21 @@ public class ProductRatingServiceImpl implements ProductRatingService {
 
         productRatingRepository.save(productRatingEntity);
 
-        log.info("Product rating added successfully for product ID {}: {}", productId, productRating);
+        log.info("Product rating added successfully for product ID {}.", productId);
 
-        return productRatingMapper.mapToProductRatingResource(productRatingEntity);
+        return productRatingMapper.mapToProductRatingDto(productRatingEntity);
     }
 
     @Override
     public List<ProductRatingDto> getAllProductRatings(Long productId) {
         log.info("Fetching all product ratings for product ID: {}", productId);
-        return productRatingMapper.mapToProductRatingResourceList(productRatingRepository.findAllByProductId(productId));
+        return productRatingMapper.mapToProductRatingDtoList(productRatingRepository.findAllByProductId(productId));
     }
 
     @Override
     public ProductRatingDto getProductRatingById(Long productId, Long id) {
         log.info("Fetching product rating by ID {} for product ID: {}", id, productId);
-        return productRatingMapper.mapToProductRatingResource(productRatingRepository.findById(id).orElseThrow());
+        return productRatingMapper.mapToProductRatingDto(productRatingRepository.findById(id).orElseThrow());
     }
 
     @Override

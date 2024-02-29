@@ -23,7 +23,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final AuthenticationManager authenticationManager;
 
     public TokenDto register(UserDto request) {
-        var user = User.builder()
+        User user = User.builder()
                 .name(request.getName())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
@@ -31,7 +31,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .build();
 
         repository.save(user);
-        var jwtToken = jwtService.generateToken(user.getId(), user);
+        String jwtToken = jwtService.generateToken(user.getId(), user);
 
         return TokenDto.builder()
                 .token(jwtToken)
@@ -45,8 +45,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                         request.getPassword()
                 )
         );
-        var client = repository.findByEmail(request.getEmail()).orElseThrow();
-        var jwtToken = jwtService.generateToken(client.getId(), client);
+        User client = repository.findByEmail(request.getEmail()).orElseThrow();
+        String jwtToken = jwtService.generateToken(client.getId(), client);
         return TokenDto.builder()
                 .token(jwtToken)
                 .build();
