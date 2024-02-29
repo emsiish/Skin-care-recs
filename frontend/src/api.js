@@ -12,3 +12,5 @@ export const USER_TAGS_ENDPOINT = '/tags';
 export const LOGIN_ENDPOINT = '/auth/login';
 
 export const REGISTER_ENDPOINT = '/auth/register';
+
+export const QUESTIONS_ENDPOINT = '/questions';

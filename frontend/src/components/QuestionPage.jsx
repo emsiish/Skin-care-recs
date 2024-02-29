@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
-import {API_BASE_URL, USERS_ENDPOINT, USER_TAGS_ENDPOINT} from '../api';
+import {API_BASE_URL, USERS_ENDPOINT, USER_TAGS_ENDPOINT, QUESTIONS_ENDPOINT} from '../api';
 import {useAuth} from "./Auth";
 import * as jose from 'jose';
 
@@ -10,21 +10,20 @@ const QuestionPage = ({ totalQuestions }) => {
     const navigate = useNavigate();
     const questionIndex = parseInt(questionNumber, 10) - 1;
     const [questions, setQuestions] = useState([]);
-    const { token } = useAuth();
+    const { token, isTokenExpired } = useAuth();
 
     useEffect(() => {
-        console.log('Fetching questions...');
+        isTokenExpired();
         const headers = { Authorization: `Bearer ${token}` };
-        axios.get(`http://127.0.0.1:8080/api/v1/questions`, { headers })
+        axios.get(`${API_BASE_URL}${QUESTIONS_ENDPOINT}`, { headers })
             .then((res) => {
                 const questionsData = res.data;
-                console.log(questionsData);
                 setQuestions(questionsData);
             })
             .catch((err) => {
                 console.error('Error fetching questions:', err);
             });
-    }, [token]);
+    }, [token, isTokenExpired]);
 
     const [selectedOptions, setSelectedOptions] = useState(Array(totalQuestions).fill({ name: '' }));
     const handleOptionChange = (option) => {
@@ -38,31 +37,19 @@ const QuestionPage = ({ totalQuestions }) => {
             if (questionIndex < questions.length - 1) {
             navigate(`/question/${questionIndex + 2}`);
             } else {
-                // Retrieve the token from local storage
-                if (token) {
-                    // Decode the token to access the payload
-                    const decodedToken = jose.decodeJwt(token);
-
-                    // Check if the decodedToken contains the user ID
-                    if (decodedToken && decodedToken.id) {
-                        const userId = decodedToken.id;
-
-                        const headers = {Authorization: `Bearer ${token}`};
-
-                        // Include the user ID in the URL
-                        try {
-                            // Wait for the PUT request to complete before navigating
-                            await axios.put(`${API_BASE_URL}${USERS_ENDPOINT}/${userId}${USER_TAGS_ENDPOINT}`, selectedOptions, { headers });
-                            navigate('/products');
-                        } catch (error) {
-                            console.error('Error during PUT request:', error);
-                            // Handle the error if needed
-                        }
-                    } else {
-                        console.error('Unable to retrieve user ID from JWT token.');
+                isTokenExpired();
+                const decodedToken = jose.decodeJwt(token);
+                if (decodedToken && decodedToken.id) {
+                    const userId = decodedToken.id;
+                    const headers = {Authorization: `Bearer ${token}`};
+                    try {
+                        await axios.put(`${API_BASE_URL}${USERS_ENDPOINT}/${userId}${USER_TAGS_ENDPOINT}`, selectedOptions, { headers });
+                        navigate('/products');
+                    } catch (error) {
+                        console.error('Error during PUT request:', error);
                     }
                 } else {
-                    console.error('JWT token not found in local storage.');
+                    console.error('Unable to retrieve user ID from JWT token.');
                 }
             }
         } else {
@@ -110,7 +97,6 @@ const QuestionPage = ({ totalQuestions }) => {
             </div>
         </div>
     );
-
 };
 
 export default QuestionPage;

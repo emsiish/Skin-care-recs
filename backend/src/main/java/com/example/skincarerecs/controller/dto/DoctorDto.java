@@ -19,4 +19,6 @@ public class DoctorDto {
 
     @NotBlank(message = "Hospital cannot be blank")
     private String hospital;
+
+    private String image;
 }

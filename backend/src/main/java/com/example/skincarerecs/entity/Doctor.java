@@ -25,6 +25,8 @@ public class Doctor {
 
     private String hospital;
 
+    private String image;
+
     @OneToMany(mappedBy = "doctor")
     private List<DoctorRating> doctorRatings;
 }
