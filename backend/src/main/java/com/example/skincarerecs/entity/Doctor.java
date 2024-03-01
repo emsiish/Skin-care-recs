@@ -7,8 +7,6 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-import jakarta.validation.constraints.*;
-
 @Entity
 @Data
 @AllArgsConstructor
@@ -18,7 +16,6 @@ public class Doctor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Name cannot be blank")
     private String name;
 
     private String phoneNumber;
