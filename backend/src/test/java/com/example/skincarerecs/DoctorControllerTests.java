@@ -2,6 +2,7 @@ package com.example.skincarerecs;
 
 import com.example.skincarerecs.config.JwtService;
 import com.example.skincarerecs.controller.DoctorController;
+import com.example.skincarerecs.controller.dto.AddDoctorDto;
 import com.example.skincarerecs.controller.dto.DoctorDto;
 import com.example.skincarerecs.controller.dto.DoctorRatingSummaryDto;
 import com.example.skincarerecs.service.DoctorService;
@@ -24,6 +25,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 
 @WebMvcTest(DoctorController.class)
@@ -64,11 +66,22 @@ public class DoctorControllerTests {
 
     @Test
     public void testAddDoctor() throws Exception {
-        when(doctorService.addDoctor(any(DoctorDto.class))).thenReturn(doctorDto);
+        MockMultipartFile imageFile = new MockMultipartFile(
+                "image",
+                "doctor.jpg",
+                MediaType.IMAGE_JPEG_VALUE,
+                "image content".getBytes()
+        );
 
-        this.mockMvc.perform(post("/api/v1/doctors")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(doctorDto)))
+        when(doctorService.addDoctor(any(AddDoctorDto.class))).thenReturn(doctorDto);
+
+        this.mockMvc.perform(multipart("/api/v1/doctors")
+                        .file(imageFile)
+                        .param("name", "bebe")
+                        .param("phoneNumber", "0888")
+                        .param("email", "bebe@gmail.com")
+                        .param("hospital", "beb hospital")
+                        .contentType(MediaType.MULTIPART_FORM_DATA))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1L))
                 .andExpect(jsonPath("$.name").value("Dr. John Doe"))

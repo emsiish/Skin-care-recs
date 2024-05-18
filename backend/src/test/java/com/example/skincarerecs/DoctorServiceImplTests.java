@@ -1,5 +1,6 @@
 package com.example.skincarerecs;
 
+import com.example.skincarerecs.controller.dto.AddDoctorDto;
 import com.example.skincarerecs.controller.dto.DoctorDto;
 import com.example.skincarerecs.controller.dto.DoctorRatingSummaryDto;
 import com.example.skincarerecs.entity.Doctor;
@@ -8,13 +9,16 @@ import com.example.skincarerecs.mapper.DoctorMapperImpl;
 import com.example.skincarerecs.repository.DoctorRatingRepository;
 import com.example.skincarerecs.repository.DoctorRepository;
 import com.example.skincarerecs.service.impl.DoctorServiceImpl;
+import com.example.skincarerecs.service.BlobStorageService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -36,6 +40,9 @@ public class DoctorServiceImplTests {
     @InjectMocks
     private DoctorServiceImpl doctorService;
 
+    @Mock
+    private BlobStorageService blobStorageService;
+
     AutoCloseable openMocks;
 
     @BeforeEach
@@ -44,18 +51,22 @@ public class DoctorServiceImplTests {
     }
 
     @Test
-    public void testAddDoctor() {
-        DoctorDto doctorDto = new DoctorDto();
-        doctorDto.setName("Dr. John Doe");
+    public void testAddDoctor() throws IOException {
+        AddDoctorDto addDoctorDto = new AddDoctorDto();
+        addDoctorDto.setName("Dr. John Doe");
 
         Doctor doctorEntity = new Doctor();
         doctorEntity.setName("Dr. John Doe");
 
-        when(doctorMapper.mapToDoctor(doctorDto)).thenReturn(doctorEntity);
+        DoctorDto doctorDto = new DoctorDto();
+        doctorDto.setName("Dr. John Doe");
+
+        when(doctorMapper.mapToDoctor(addDoctorDto)).thenReturn(doctorEntity);
         when(doctorRepository.save(doctorEntity)).thenReturn(doctorEntity);
         when(doctorMapper.mapToDoctorDto(doctorEntity)).thenReturn(doctorDto);
+        when(blobStorageService.uploadFile(any(), any())).thenReturn("image.jpg");
 
-        DoctorDto addedDoctor = doctorService.addDoctor(doctorDto);
+        DoctorDto addedDoctor = doctorService.addDoctor(addDoctorDto);
 
         assertEquals(doctorDto.getName(), addedDoctor.getName());
         verify(doctorRepository, times(1)).save(doctorEntity);
@@ -116,8 +127,15 @@ public class DoctorServiceImplTests {
         existingDoctor.setId(id);
         existingDoctor.setName("Dr. John Doe");
 
+        AddDoctorDto addDoctorDto = new AddDoctorDto();
+        addDoctorDto.setName("Dr. Jane Smith");
+        addDoctorDto.setPhoneNumber("1234567890");
+        addDoctorDto.setPhoneNumber("1234567890");
+        addDoctorDto.setEmail("jane@example.com");
+        addDoctorDto.setHospital("City Hospital");
+
         when(doctorRepository.findById(id)).thenReturn(Optional.of(existingDoctor));
-        when(doctorMapper.mapToDoctor(doctorDto)).thenReturn(existingDoctor);
+        when(doctorMapper.mapToDoctor(addDoctorDto)).thenReturn(existingDoctor);
         when(doctorRepository.save(existingDoctor)).thenReturn(existingDoctor);
         when(doctorMapper.mapToDoctorDto(existingDoctor)).thenReturn(doctorDto);
 
@@ -128,7 +146,6 @@ public class DoctorServiceImplTests {
         assertEquals(doctorDto.getPhoneNumber(), updatedDoctor.getPhoneNumber());
         assertEquals(doctorDto.getEmail(), updatedDoctor.getEmail());
         assertEquals(doctorDto.getHospital(), updatedDoctor.getHospital());
-        assertEquals(doctorDto.getImage(), updatedDoctor.getImage());
     }
 
     @Test

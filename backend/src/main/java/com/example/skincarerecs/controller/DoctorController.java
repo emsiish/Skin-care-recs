@@ -1,5 +1,6 @@
 package com.example.skincarerecs.controller;
 
+import com.example.skincarerecs.controller.dto.AddDoctorDto;
 import com.example.skincarerecs.controller.dto.DoctorDto;
 import com.example.skincarerecs.controller.dto.DoctorRatingSummaryDto;
 import com.example.skincarerecs.service.DoctorService;
@@ -7,6 +8,7 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -16,7 +18,7 @@ public class DoctorController {
     private final DoctorService doctorService;
 
     @PostMapping
-    public DoctorDto addDoctor(@Valid @RequestBody DoctorDto doctor) {
+    public DoctorDto addDoctor(@Valid @ModelAttribute AddDoctorDto doctor) throws IOException {
         return doctorService.addDoctor(doctor);
     }
 
