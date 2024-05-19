@@ -6,7 +6,6 @@ import com.azure.storage.common.StorageSharedKeyCredential;
 import com.example.skincarerecs.service.BlobStorageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
