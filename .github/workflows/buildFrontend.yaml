@@ -24,7 +24,7 @@ jobs:
         run: npm install
 
       - name: Build with React
-        run: npm start
+        run: npm run build
 
   docker_build_and_push:
     needs: build
