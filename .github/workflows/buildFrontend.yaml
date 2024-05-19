@@ -1,0 +1,47 @@
+name: Build and Deploy frontend
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./frontend
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up React
+        uses: actions/setup-node@v2
+        with:
+          node-version: '17'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build with React
+        run: npm start
+
+  docker_build_and_push:
+    needs: build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./frontend
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Docker Login
+        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build Docker image
+        run: docker build -t emsiish/skin-care-recs-frontend:latest .
+
+      - name: Push Docker image
+        run: docker push emsiish/skin-care-recs-frontend:latest
