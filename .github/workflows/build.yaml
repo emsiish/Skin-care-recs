@@ -19,12 +19,14 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: '17'
-          distribution: 'adopt'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Build with Maven
+        run: mvn -B package --file pom.xml
 
       - name: Run and test with Maven
-        run: |
-          chmod +x ./mvnw
-          ./mvnw clean test package
+        run: mvn test
 
   docker_build_and_push:
     needs: build
