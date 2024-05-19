@@ -1,3 +1,3 @@
 INSERT INTO doctor (name, phone_number, email, hospital, image) VALUES
-('Dr. John Doe', '123-456-7890', 'john@gmail.com', 'St. Mary Hospital', 'https://images.squarespace-cdn.com/content/v1/57eecee12e69cfc1fbc55bd1/1505145568599-DTWA82UA6S4XW9T0E0TD/20170824-163156-WebRes.JPG'),
-('Dr. Jane Doe', '123-456-7890', 'jane@gmail.com', 'St. Mary Hospital', 'https://images.squarespace-cdn.com/content/v1/53a0f6d3e4b0273cffe503d2/1403058353000-2J6DDKHVHR4RTCOE5CJG/image-asset.jpeg');
+('Dr. John Doe', '123-456-7890', 'john@gmail.com', 'St. Mary Hospital', 'https://skincarerecs.blob.core.windows.net/images/dermatologist1.jpg'),
+('Dr. Jane Doe', '123-456-7890', 'jane@gmail.com', 'St. Mary Hospital', 'https://skincarerecs.blob.core.windows.net/images/dermatologist3.jpeg');

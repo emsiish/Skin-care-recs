@@ -61,7 +61,7 @@ const QuestionPage = ({ totalQuestions }) => {
     return (
         <div className="flex items-center justify-center h-screen">
             <div className="container max-w-md">
-                <div className="card bg-white p-4 rounded-lg shadow-md w-full flex flex-col items-center">
+                <div className="card bg-white p-4 rounded-2xl shadow-md w-full flex flex-col items-center">
                     <div className="w-full bg-gray-200 rounded-full h-1.5 mb-4 dark:bg-gray-700" style={{ width: '100%' }}>
                         <div className="bg-blue-600 h-1.5 rounded-full dark:bg-blue-500" style={{ width: `${progress}%` }}></div>
                     </div>

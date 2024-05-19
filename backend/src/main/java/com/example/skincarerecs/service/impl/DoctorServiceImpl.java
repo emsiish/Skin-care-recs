@@ -1,16 +1,19 @@
 package com.example.skincarerecs.service.impl;
 
+import com.example.skincarerecs.controller.dto.AddDoctorDto;
 import com.example.skincarerecs.controller.dto.DoctorDto;
 import com.example.skincarerecs.controller.dto.DoctorRatingSummaryDto;
 import com.example.skincarerecs.entity.Doctor;
 import com.example.skincarerecs.mapper.DoctorMapper;
 import com.example.skincarerecs.repository.DoctorRatingRepository;
 import com.example.skincarerecs.repository.DoctorRepository;
+import com.example.skincarerecs.service.BlobStorageService;
 import com.example.skincarerecs.service.DoctorService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -21,11 +24,14 @@ public class DoctorServiceImpl implements DoctorService {
     private final DoctorRepository doctorRepository;
     private final DoctorMapper doctorMapper;
     private final DoctorRatingRepository doctorRatingRepository;
+    private final BlobStorageService blobStorageService;
 
     @Override
-    public DoctorDto addDoctor(DoctorDto doctor) {
+    public DoctorDto addDoctor(AddDoctorDto doctor) throws IOException {
         log.info("Adding a new doctor: {}", doctor.getName());
+        String imageUrl = blobStorageService.uploadFile(doctor.getImage(), doctor.getName() + ".jpg");
         Doctor doctorEntity = doctorMapper.mapToDoctor(doctor);
+        doctorEntity.setImage(imageUrl);
         doctorRepository.save(doctorEntity);
         log.info("Doctor added successfully: {}", doctor.getName());
         return doctorMapper.mapToDoctorDto(doctorEntity);

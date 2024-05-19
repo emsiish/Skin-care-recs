@@ -4,7 +4,7 @@ import { FaTimes } from 'react-icons/fa';
 const ShowRatings = ({ selectedObject, onClose }) => {
     return (
         <div className="fixed inset-0 bg-gray-700 bg-opacity-50 flex items-center justify-center">
-            <div className="bg-white p-4 rounded-md h-3/6 overflow-y-auto relative">
+            <div className="bg-white p-4 rounded-xl h-3/6 overflow-y-auto relative">
                 <div className="flex flex-col">
                     <div className="flex items-center justify-between mb-2">
                         <h2 className="text-xl font-bold">{selectedObject.name} Ratings</h2>

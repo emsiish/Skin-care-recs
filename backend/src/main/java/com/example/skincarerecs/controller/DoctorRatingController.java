@@ -17,22 +17,22 @@ public class DoctorRatingController {
     private final DoctorRatingService doctorRatingService;
 
     @PostMapping
-    public DoctorRatingDto addDoctorRating(@PathVariable Long doctorId, @Valid @RequestBody AddDoctorRatingDto doctorRating) {
+    public DoctorRatingDto addDoctorRating(@PathVariable("doctorId") Long doctorId, @Valid @RequestBody AddDoctorRatingDto doctorRating) {
         return doctorRatingService.addDoctorRating(doctorId, doctorRating);
     }
 
     @GetMapping
-    public List<DoctorRatingDto> getAllDoctorRatings(@PathVariable Long doctorId) {
+    public List<DoctorRatingDto> getAllDoctorRatings(@PathVariable("doctorId") Long doctorId) {
         return doctorRatingService.getAllDoctorRatings(doctorId);
     }
 
     @GetMapping(path = "/{id}")
-    public DoctorRatingDto getDoctorRatingById(@PathVariable Long doctorId, @PathVariable Long id) {
+    public DoctorRatingDto getDoctorRatingById(@PathVariable("doctorId") Long doctorId, @PathVariable("id") Long id) {
         return doctorRatingService.getDoctorRatingById(doctorId, id);
     }
 
     @DeleteMapping(path = "/{id}")
-    public void deleteDoctorRating(@PathVariable Long doctorId, @PathVariable Long id) {
+    public void deleteDoctorRating(@PathVariable("doctorId") Long doctorId, @PathVariable("id") Long id) {
         doctorRatingService.deleteDoctorRating(doctorId, id);
     }
 }
