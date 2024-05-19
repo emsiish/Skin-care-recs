@@ -22,19 +22,8 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - name: Create Env File
-        run: |
-          touch env.properties
-          echo JWT_SECRET=${{ secrets.JWT_SECRET }} >> .env
-          echo AZURE_ENDPOINT=${{ secrets.AZURE_ENDPOINT }} >> .env
-          echo AZURE_KEY=${{ secrets.AZURE_KEY }} >> .env
-          echo AZURE_ACCOUNT=${{ secrets.AZURE_ACCOUNT }} >> .env
-
-      - name: Build with Maven
+      - name: Build and Test with Maven
         run: mvn -B package --file pom.xml
-
-      - name: Run and test with Maven
-        run: mvn test
 
   docker_build_and_push:
     needs: build
