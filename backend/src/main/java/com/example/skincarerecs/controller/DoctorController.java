@@ -28,17 +28,17 @@ public class DoctorController {
     }
 
     @GetMapping(path = "/{id}")
-    public DoctorDto getDoctorById(@PathVariable Long id) {
+    public DoctorDto getDoctorById(@PathVariable("id") Long id) {
         return doctorService.getDoctorById(id);
     }
 
     @PutMapping(path = "/{id}")
-    public DoctorDto updateDoctor(@PathVariable Long id, @Valid @RequestBody DoctorDto doctor) {
+    public DoctorDto updateDoctor(@PathVariable("id") Long id, @Valid @RequestBody DoctorDto doctor) {
         return doctorService.updateDoctor(id, doctor);
     }
 
     @DeleteMapping(path = "/{id}")
-    public void deleteDoctor(@PathVariable Long id) {
+    public void deleteDoctor(@PathVariable("id") Long id) {
         doctorService.deleteDoctor(id);
     }
 }
