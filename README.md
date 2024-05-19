@@ -13,8 +13,18 @@ Before you begin, ensure you have met the following requirements:
 ## Running the backend
 
 1. Open the whole project in IntelliJ IDEA. It will suggest that the backend directory is a Maven project and will ask to load the dependencies.
-2. After loading run the backend through the IDE.
-3. The backend should be running on http://localhost:8080
+2. Create env.properties file with the following:
+
+   ```bash
+   DB_USER=<your-db-user>
+   DB_PASSWORD=<your-db-password>
+   JWT_SECRET=<your-jwt-secret>
+   AZURE_ENDPOINT=<your-blob-storage-endpoint>
+   AZURE_KEY=<your-blob-storage-key>
+   AZURE_ACCOUNT=<your-blob-storage-account>
+
+3. After loading run the backend through the IDE.
+4. The backend should be running on http://localhost:8080
 
 ## Running the frontend
 
@@ -30,7 +40,12 @@ To run the frontend, follow these steps:
    ```bash
    npm install
 
-3. Finally, run the frontend application.
+3. Create .env file with the following:
+
+   ```bash
+   REACT_APP_API_BASE_URL=http://localhost:8080/api/v1
+
+4. Finally, run the frontend application.
 
    ```bash
    npm start
