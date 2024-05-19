@@ -69,12 +69,11 @@ const DoctorsPage = () => {
         return (
             <div className="flex items-center">
                 {starArr.map((val, i) => (
-                    <div key={i} className="w-8 h-8 flex items-center justify-center text-2xl" style={{ marginRight: '-0.3em' }}>
+                    <div key={i} className="w-8 h-6 flex items-center justify-center text-2xl" style={{ marginRight: '-0.3em' }}>
                     <span
                         className={`bg-gradient-to-r from-yellow-400 to-gray-400 bg-clip-text text-transparent`}
                         style={{
                             backgroundImage: `linear-gradient(90deg, #FFEA00 ${val * 100}%, #bbbac0 ${val * 100}%)`,
-                            margin: '-0.1em'
                         }}
                     >
                         &#9733;
@@ -87,17 +86,17 @@ const DoctorsPage = () => {
     };
 
     return (
-        <div className="min-h-screen overflow-hidden">
+        <div className="min-h-screen">
             <div className="doctor-page text-center">
-                <h2 className="text-3xl font-bold mb-2">Doctors</h2>
-                <div className="flex flex-wrap justify-center">
+                <h2 className="text-3xl font-bold">Doctors</h2>
+                <div className="mt-4 flex flex-wrap justify-center">
                     {doctors.map((doctor) => (
-                        <div key={doctor.id} className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 p-2">
-                            <div className="bg-white p-4 rounded-lg shadow-md flex flex-col justify-between">
+                        <div key={doctor.id} className="w-full sm:w-1/2 md:w-1/3 lg:w-1/3 xl:w-1/4 p-2">
+                            <div className="bg-white p-2 rounded-2xl shadow-md flex flex-col justify-between">
                                 <img
                                     src={doctor.image}
                                     alt={`Doctor ${doctor.id}`}
-                                    className="mb-2 w-4/5 object-cover mx-auto"
+                                    className="mb-2 w-3/5 object-cover mx-auto rounded-xl"
                                 />
                                 <div>
                                     <h3 className="font-bold text-xl mb-2">{doctor.name}</h3>
@@ -111,14 +110,14 @@ const DoctorsPage = () => {
                                         <strong>Average Rating: </strong>
                                         {renderStarIcons(doctor.averageRating ?? 0)}
                                     </div>
-                                    <div className="mt-1 flex justify-center flex-col">
+                                    <div className="mt-2 flex justify-center flex-col">
                                         <div className="mb-1">
-                                            <button onClick={() => handleFetchRatings(doctor.id, doctor.name)} className="bg-blue-500 text-white p-2 rounded">
+                                            <button onClick={() => handleFetchRatings(doctor.id, doctor.name)} className="bg-blue-500 text-white p-2 rounded-lg">
                                                 Show Ratings
                                             </button>
                                         </div>
                                         <div>
-                                            <button onClick={() => setAddRating(doctor.id)} className="bg-blue-500 text-white p-2 rounded">
+                                            <button onClick={() => setAddRating(doctor.id)} className="bg-blue-500 text-white p-2 rounded-lg">
                                                 Add Rating
                                             </button>
                                         </div>

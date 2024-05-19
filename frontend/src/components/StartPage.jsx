@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const StartPage = () => (
     <div className="flex items-center justify-center h-screen">
-        <div className="card bg-white p-4 rounded-lg shadow-md">
+        <div className="card bg-white p-4 rounded-2xl shadow-md">
             <h1 className="text-3xl font-bold mb-4">Welcome to the Skincare Questionnaire!</h1>
             <p>Click the button below to start.</p>
             <Link to="/question/1">
